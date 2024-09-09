@@ -1,1 +1,12 @@
-<p>login works!</p>
+  
+<div>
+    <p class="miClase">Nombre usuario</p>
+    <input type="text" placeholder="Usuario" [(ngModel)]="usuario"> 
+</div>
+<div>
+    <p class="miClase">Contraseña</p>
+    <input type="text" placeholder="Contraseña" [(ngModel)]="contrasena"> 
+</div>
+<div>   
+    <button (click)="presioarBotonIngresar('/home')" >  Ingresar </button>
+</div>
