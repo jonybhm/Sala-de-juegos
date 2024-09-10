@@ -8,10 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './usuario.component.scss'
 })
 export class UsuarioComponent {
-  nombre!: string;
-  apellido!: string;
-  imagen!: string;
-  descripcionJuego!: string;
 
   nombreUsuario!: string;
   claveUsuario!: string;
