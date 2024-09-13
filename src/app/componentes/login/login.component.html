@@ -1,20 +1,32 @@
-    
-<div>
-    <mat-form-field appearance="fill">
+
+<div class="container">
+    <img src="../../assets/maquina-de-arcade.png" alt="logo" width="40">
+    <p>INICIAR SESION PARA LA SALA DE JUEGOS</p>
+</div>
+
+
+<div class="container">
+    <mat-form-field appearance="fill" class="form">
         <mat-label>Nombre usuario</mat-label>
         <input matInput  type="text" placeholder="Usuario" [(ngModel)]="usuario"> 
     </mat-form-field>
-
 </div>
-<div>
-    <mat-form-field appearance="fill">
+
+<div class="container">
+    <mat-form-field appearance="fill" class="form">
         <mat-label>Contraseña</mat-label>
-        <input matInput type="text" placeholder="Contraseña" [(ngModel)]="contrasena"> 
+        <input matInput [type]="hide() ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="contrasena">    
+        <button mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()">
+            <span class="material-icons">visibility</span>
+        </button>     
     </mat-form-field>
-
 </div>
-<div> 
+
+<div class="container"> 
     <button mat-raised-button color="primary" (click)="presioarBotonIngresar('/home')" >  Ingresar </button>
 </div>
-<!-- <mat-slide-toggle>Toggle me!</mat-slide-toggle> -->
 

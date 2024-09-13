@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule,MatInputModule],
+  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule, MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -98,5 +99,11 @@ export class LoginComponent {
   {
     this.usuario = "";
     this.contrasena = "";
+  }
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 }
