@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import Swal  from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
@@ -25,6 +25,17 @@ export class LoginComponent {
     {nombreUsuario:'admin',claveUsuario:'00000'},
   ]
   
+  Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
 
   constructor(private router: Router)
   {    
@@ -64,7 +75,7 @@ export class LoginComponent {
 
   errorUsuario()
   {
-    Swal.fire(
+    this.Toast.fire(
       {
         title:'Usuario o contrasena invalidos',
         text:'Ingrese los datos nuevamente',
@@ -75,18 +86,18 @@ export class LoginComponent {
 
   faltaUsuario()
   {
-    Swal.fire(
+    this.Toast.fire(
       {
         title:'Falta algun dato',
         text:'Ingrese los datos nuevamente',
-        icon:'error'
+        icon:'warning'
       }
     )
   }
 
   bienvenidoUsuario()
   {
-    Swal.fire(
+    this.Toast.fire(
       {
         title:'Bienvenido!',
         text:'Bienvenido a la sala de juegos',
