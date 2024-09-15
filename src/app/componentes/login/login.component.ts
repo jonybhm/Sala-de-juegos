@@ -7,39 +7,65 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { addDoc,query,collection, Firestore, orderBy, collectionData } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule, MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton],
+  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule, 
+    MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton, MatTableModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
 
-  usuario : string = 'admin';
-  contrasena : string = '00000';
+export class LoginComponent {
+  displayedColumns: string[] = ['usuario', 'fecha'];
+  loginsCollection: any[] = [];
+  countLogins: number = 0;
+  private sub!: Subscription;
+
+  
+  usuario : string = '';
+  contrasena : string = '';
   usuarioEncontrado !: string;
   contrasenaEncontrada !: string;
   arrayUsuarios = [
     {nombreUsuario:'admin',claveUsuario:'00000'},
   ]
   
-  Toast = Swal.mixin({
-    toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    }
-  });
-
-  constructor(private router: Router)
-  {    
+  constructor(private firestore:Firestore, private router: Router){   
   }
+
+  registrarLoginsEnDB () 
+  {
+    let coleccion = collection(this.firestore, 'logins');
+    addDoc(coleccion,{
+      "Fecha": new Date(), 
+      "Usuario":this.usuario
+    });
+  }
+
+  obtenerDatosLoginsDB ()
+  {
+    let coleccion = collection(this.firestore, 'logins');
+
+    const filteredQuery = query(
+      coleccion,orderBy("Fecha","desc")
+    );
+
+    const observable = collectionData(filteredQuery); //canal de comunicacon que me permite ver si hubo cambios en la base de datos 
+
+    this.sub = observable.subscribe((respuesta:any)=>{
+      this.loginsCollection = respuesta;
+      this.countLogins = this.loginsCollection.length;
+      console.log(respuesta);
+    })
+  }
+
+  
+  
 
   presioarBotonIngresar(path: string)
   {
@@ -63,7 +89,8 @@ export class LoginComponent {
     else if (this.usuarioEncontrado === this.usuario && this.contrasenaEncontrada === this.contrasena)
     {
       this.bienvenidoUsuario();    
-      this.router.navigate([path]);  
+      this.router.navigate([path]);
+      this.registrarLoginsEnDB ();  
       this.limpiarUsuario();
     }  
     else
@@ -72,6 +99,18 @@ export class LoginComponent {
       this.limpiarUsuario();
     }
   }
+
+  Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
 
   errorUsuario()
   {

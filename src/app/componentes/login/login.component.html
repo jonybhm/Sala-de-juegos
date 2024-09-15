@@ -1,9 +1,6 @@
-
-<div class="container">
-    <img src="../../assets/maquina-de-arcade.png" alt="logo" width="40">
-    <p>INICIAR SESION PARA LA SALA DE JUEGOS</p>
-</div>
-
+<img src="../../assets/maquina-de-arcade.png" alt="logo" class="logoimg">
+<h1>SALA DE JUEGOS</h1>
+<h2>INICIAR SESION</h2>
 
 <div class="container">
     <mat-form-field appearance="fill" class="form">
@@ -27,6 +24,38 @@
 </div>
 
 <div class="container"> 
-    <button mat-raised-button color="primary" (click)="presioarBotonIngresar('/home')" >  Ingresar </button>
+    <button mat-raised-button color="primary" (click)="presioarBotonIngresar('/home')" class="boton">  Ingresar </button>
+    <!-- <button mat-raised-button color="primary" (click)="presioarBotonRegistrar('/home')" class="boton">  Registrarse </button>
+    <span></span> -->
 </div>
+
+<!-- @if (loggedUser != "") {
+    <p></p>
+} -->
+
+<div class="container">
+    <button mat-flat-button color="primary" (click)="obtenerDatosLoginsDB()" class="boton">  Obtener Registro </button>
+</div>
+
+<div *ngIf="loginsCollection.length > 0" >
+    
+    <p>Cantidad de ingresos: {{countLogins}}</p>
+    
+    <table mat-table [dataSource]="loginsCollection" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Usuario">
+            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+            <td mat-cell *matCellDef="let login"> {{ login.Usuario }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Fecha">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let login"> {{ login.Fecha }} </td>
+        </ng-container>          
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
 
