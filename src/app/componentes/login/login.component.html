@@ -5,14 +5,20 @@
 <div class="container">
     <mat-form-field appearance="fill" class="form">
         <mat-label>Nombre usuario</mat-label>
-        <input matInput  type="text" placeholder="Usuario" [(ngModel)]="usuario"> 
+        <input matInput  type="text" placeholder="Usuario" [matAutocomplete]="auto" [(ngModel)]="usuario"> 
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option [value]="mailAuto">{{mailAuto}}</mat-option>
+        </mat-autocomplete>
     </mat-form-field>
 </div>
 
 <div class="container">
     <mat-form-field appearance="fill" class="form">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hide() ? 'password' : 'text'" placeholder="Contraseña" [(ngModel)]="contrasena">    
+        <input matInput [type]="hide() ? 'password' : 'text'" placeholder="Contraseña" [matAutocomplete]="autoClave" [(ngModel)]="claveUsuario">   
+        <mat-autocomplete autoActiveFirstOption #autoClave="matAutocomplete">
+            <mat-option [value]="claveAuto">{{claveAuto}}</mat-option>
+        </mat-autocomplete> 
         <button mat-icon-button
         matSuffix
         (click)="clickEvent($event)"
@@ -24,9 +30,9 @@
 </div>
 
 <div class="container"> 
-    <button mat-raised-button color="primary" (click)="presioarBotonIngresar('/home')" class="boton">  Ingresar </button>
-    <!-- <button mat-raised-button color="primary" (click)="presioarBotonRegistrar('/home')" class="boton">  Registrarse </button>
-    <span></span> -->
+    <button mat-raised-button color="primary" (click)="IniciarSesion('/home')" class="boton">  Ingresar </button>
+    <button mat-raised-button color="primary" (click)="Registrar('/registro')" class="boton">  Registrarse </button>
+    <span></span>
 </div>
 
 <!-- @if (loggedUser != "") {

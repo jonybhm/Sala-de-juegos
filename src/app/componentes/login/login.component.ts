@@ -7,36 +7,42 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Observable, Subscription } from 'rxjs';
 import { addDoc,query,collection, Firestore, orderBy, collectionData } from '@angular/fire/firestore';
-import { Subscription } from 'rxjs';
 import {MatTableModule} from '@angular/material/table';
+import {Auth, signInWithEmailAndPassword} from '@angular/fire/auth'
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @Component({
+
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule, 
+  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule,MatAutocompleteModule,
     MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton, MatTableModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 
 export class LoginComponent {
+  mailAuto: string="admin@gmail.com";
+  claveAuto: string="00000Casa";
+
+  constructor(public auth: Auth, private firestore:Firestore, private router: Router){   
+  }
+  
+  //================REGISTRO USUARIOS NUEVOS================
+
+  Registrar (path:string)
+  {
+    this.router.navigate([path]);
+  }
+
+  
+  //================REGISTRO DE LOGINS EN BASE DE DATOS================
   displayedColumns: string[] = ['usuario', 'fecha'];
   loginsCollection: any[] = [];
   countLogins: number = 0;
   private sub!: Subscription;
-
-  
-  usuario : string = '';
-  contrasena : string = '';
-  usuarioEncontrado !: string;
-  contrasenaEncontrada !: string;
-  arrayUsuarios = [
-    {nombreUsuario:'admin',claveUsuario:'00000'},
-  ]
-  
-  constructor(private firestore:Firestore, private router: Router){   
-  }
 
   registrarLoginsEnDB () 
   {
@@ -64,42 +70,80 @@ export class LoginComponent {
     })
   }
 
-  
-  
 
-  presioarBotonIngresar(path: string)
+  //================LOGIN USUARIOS================
+  usuario : string = '';
+  claveUsuario: string = '';
+  usuarioLogeado: string ='';
+  errorLogeo: boolean = false;
+
+  IniciarSesion(path: string)
   {
-    
-    this.validarUsuarioContrasena(path);
-  }
-
-  validarUsuarioContrasena(path:string)
-  {
-    this.usuarioEncontrado = String(this.arrayUsuarios.find(user => user.nombreUsuario === this.usuario)?.nombreUsuario);
-    this.contrasenaEncontrada = String(this.arrayUsuarios.find(user => user.claveUsuario === this.contrasena)?.claveUsuario);
-
-    console.log(this.usuarioEncontrado);
-    console.log(this.contrasenaEncontrada);
-       
-    if(this.usuarioEncontrado === undefined || this.contrasenaEncontrada === undefined )
-    {
-      this.faltaUsuario();    
-      this.limpiarUsuario();
-    }
-    else if (this.usuarioEncontrado === this.usuario && this.contrasenaEncontrada === this.contrasena)
-    {
-      this.bienvenidoUsuario();    
+    signInWithEmailAndPassword(this.auth, this.usuario, this.claveUsuario).then((res)=>{
+      this.errorLogeo = false;
+      this.Toast.fire(
+        {
+          title:'Inicio de Sesión exitosa',
+          icon:'success'
+        }
+      )
       this.router.navigate([path]);
-      this.registrarLoginsEnDB ();  
-      this.limpiarUsuario();
-    }  
-    else
-    {
-      this.errorUsuario();
-      this.limpiarUsuario();
-    }
+
+    }).catch((e) => {
+      this.errorLogeo = true;
+      console.log(e.code);
+      switch(e.code)
+      {        
+        case "auth/invalid-credential":
+          this.Toast.fire(
+            {
+              title:'Usuario o contraseña invalidos',
+              text:'Ingrese los datos nuevamente',
+              icon:'error'
+            }
+          )
+          break;
+        case "auth/invalid-email":
+          this.Toast.fire(
+            {
+              title:'Email invalido',
+              text:'Ingrese los datos nuevamente',
+              icon:'error'
+            }
+          )
+          break;
+        case "auth/missing-password":
+          this.Toast.fire(
+            {
+              title:'Falta contraseña',
+              text:'Ingrese los datos nuevamente',
+              icon:'error'
+            }
+          )
+          break;
+        default:
+          this.Toast.fire(
+            {
+              title:'Faltan datos',
+              text:'Ingrese los datos nuevamente',
+              icon:'error'
+            }
+          )
+          break;
+      }
+    });
+  }
+  
+
+  //---------------ocultar contraseña---------------
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 
+  //================ALERTAS================
   Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -112,48 +156,12 @@ export class LoginComponent {
     }
   });
 
-  errorUsuario()
-  {
-    this.Toast.fire(
-      {
-        title:'Usuario o contrasena invalidos',
-        text:'Ingrese los datos nuevamente',
-        icon:'error'
-      }
-    )
-  }
-
-  faltaUsuario()
-  {
-    this.Toast.fire(
-      {
-        title:'Falta algun dato',
-        text:'Ingrese los datos nuevamente',
-        icon:'warning'
-      }
-    )
-  }
-
-  bienvenidoUsuario()
-  {
-    this.Toast.fire(
-      {
-        title:'Bienvenido!',
-        text:'Bienvenido a la sala de juegos',
-        icon:'success'
-      }
-    )
-  }
 
   limpiarUsuario()
   {
     this.usuario = "";
-    this.contrasena = "";
+    this.claveUsuario = "";
   }
 
-  hide = signal(true);
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
-  }
+  
 }
