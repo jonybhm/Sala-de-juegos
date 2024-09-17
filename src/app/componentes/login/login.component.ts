@@ -12,13 +12,15 @@ import { addDoc,query,collection, Firestore, orderBy, collectionData } from '@an
 import {MatTableModule} from '@angular/material/table';
 import {Auth, signInWithEmailAndPassword} from '@angular/fire/auth'
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSidenavModule} from '@angular/material/sidenav';
+
 
 @Component({
 
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule,MatAutocompleteModule,
-    MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton, MatTableModule],
+    MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton, MatTableModule, MatSidenavModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -35,40 +37,7 @@ export class LoginComponent {
   Registrar (path:string)
   {
     this.router.navigate([path]);
-  }
-
-  
-  //================REGISTRO DE LOGINS EN BASE DE DATOS================
-  displayedColumns: string[] = ['usuario', 'fecha'];
-  loginsCollection: any[] = [];
-  countLogins: number = 0;
-  private sub!: Subscription;
-
-  registrarLoginsEnDB () 
-  {
-    let coleccion = collection(this.firestore, 'logins');
-    addDoc(coleccion,{
-      "Fecha": new Date(), 
-      "Usuario":this.usuario
-    });
-  }
-
-  obtenerDatosLoginsDB ()
-  {
-    let coleccion = collection(this.firestore, 'logins');
-
-    const filteredQuery = query(
-      coleccion,orderBy("Fecha","desc")
-    );
-
-    const observable = collectionData(filteredQuery); //canal de comunicacon que me permite ver si hubo cambios en la base de datos 
-
-    this.sub = observable.subscribe((respuesta:any)=>{
-      this.loginsCollection = respuesta;
-      this.countLogins = this.loginsCollection.length;
-      console.log(respuesta);
-    })
-  }
+  } 
 
 
   //================LOGIN USUARIOS================
@@ -134,6 +103,14 @@ export class LoginComponent {
     });
   }
   
+  registrarLoginsEnDB () 
+   {
+     let coleccion = collection(this.firestore, 'logins');
+     addDoc(coleccion,{
+       "Fecha": new Date(), 
+       "Usuario":this.usuario
+     });
+   }
 
   //---------------ocultar contraseña---------------
 
