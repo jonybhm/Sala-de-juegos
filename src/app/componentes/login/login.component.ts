@@ -13,14 +13,15 @@ import {MatTableModule} from '@angular/material/table';
 import {Auth, signInWithEmailAndPassword} from '@angular/fire/auth'
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
 
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule,MatAutocompleteModule,
-    MatInputModule, MatButtonModule, MatIconButton, MatFormFieldModule, MatIconButton, MatTableModule, MatSidenavModule],
+    MatInputModule, MatToolbarModule,MatButtonModule, MatIconButton, MatIconModule, MatFormFieldModule, MatIconButton, MatTableModule, MatSidenavModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -123,7 +124,7 @@ export class LoginComponent {
   //================ALERTAS================
   Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-end",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,

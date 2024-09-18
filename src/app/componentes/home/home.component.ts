@@ -10,13 +10,13 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
-
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,RouterLinkActive,MatButtonModule,MatFormFieldModule,MatTableModule,FormsModule,CommonModule,MatSidenavModule],
+  imports: [RouterOutlet,RouterLink,RouterLinkActive,MatCardModule,MatButtonModule,MatToolbarModule,MatFormFieldModule,MatTableModule,FormsModule,CommonModule,MatSidenavModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -70,7 +70,7 @@ export class HomeComponent {
   //================ALERTAS================
   Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-end",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,

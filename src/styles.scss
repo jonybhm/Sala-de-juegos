@@ -4,12 +4,12 @@
 
 $theme: mat.define-theme((
   color: (
-    theme-type: light,
-    primary: mat.$green-palette ,
-    tertiary:  mat.$green-palette
+    theme-type: dark,
+    primary: mat.$spring-green-palette ,
+    tertiary:  mat.$spring-green-palette
   ),
   typography: (
-    brand-family: 'Comic Sans',
+    brand-family: 'Roboto',
     bold-weight: 1500,
   ),
   density: (
@@ -27,7 +27,6 @@ html {
   align-items: center;
   height: 10vh;
   padding: 20px;
-  overflow: auto;
 }
 
 .containerfoto {
@@ -68,19 +67,28 @@ html {
   height: 100px;
 }
 
-p {
+.spacer {
+  flex: 1 1 auto;
+}
+
+.carta{
   margin: 10px;
   padding: 10px;
+}
+
+p {
+  font-size: 1rem;
 }
 
 h1{
   font-size: 2rem;  
   text-align: center;
+
 }
 
 h2{
   font-size: 1.5rem;  
-  text-align: center;
+  text-align: center;  
 }
 
 section{
@@ -88,7 +96,7 @@ section{
 }
 
 body {
-  background-color: #101414;; 
+  background-color: #131a1a;; 
   color: #ffffff; 
 }
 
