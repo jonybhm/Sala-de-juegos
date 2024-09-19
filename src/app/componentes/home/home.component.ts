@@ -12,35 +12,31 @@ import { CommonModule } from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
+import { LogoutService } from '../../servicios/logout.service';
+import { ErrorService } from '../../servicios/error.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,RouterLinkActive,MatCardModule,MatButtonModule,MatToolbarModule,MatFormFieldModule,MatTableModule,FormsModule,CommonModule,MatSidenavModule],
+  imports: [
+    RouterOutlet,RouterLink,RouterLinkActive,
+    MatCardModule,MatButtonModule,MatToolbarModule,
+    MatFormFieldModule,MatTableModule,FormsModule,
+    CommonModule,MatSidenavModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 
-  constructor(public auth: Auth, private router:Router, private firestore:Firestore){
+  constructor(
+    public auth: Auth,
+    private router:Router, 
+    private firestore:Firestore,
+    public logout:LogoutService,
+    private error:ErrorService
+  ){}
 
-  }
-
-  //================CERRAR SESION================
-
-  CerrarSesion(path:string)
-  {
-    signOut(this.auth).then(()=>{
-      this.router.navigate([path]);
-      this.Toast.fire(
-        {
-          title:'Ha cerrado sesión',
-          icon:'info'
-        }
-      )
-      console.log(this.auth.currentUser?.email)
-    }).catch((e)=>console.log(e))
-  }
+  
 
    //================REGISTRO DE LOGINS EN BASE DE DATOS================
    displayedColumns: string[] = ['usuario', 'fecha'];
@@ -65,19 +61,6 @@ export class HomeComponent {
        this.countLogins = this.loginsCollection.length;
        console.log(respuesta);
      })
-   }
-
-  //================ALERTAS================
-  Toast = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    }
-  });
+   }  
 
 }

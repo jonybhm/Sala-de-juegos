@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import Swal  from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
@@ -15,13 +14,18 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import { LogoutService } from '../../servicios/logout.service';
+import { ErrorService } from '../../servicios/error.service';
 
 @Component({
 
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule,MatSlideToggle,MatButtonModule,MatAutocompleteModule,
-    MatInputModule, MatToolbarModule,MatButtonModule, MatIconButton, MatIconModule, MatFormFieldModule, MatIconButton, MatTableModule, MatSidenavModule],
+  imports: [FormsModule,CommonModule,
+    MatSlideToggle,MatButtonModule,MatAutocompleteModule,
+    MatInputModule, MatToolbarModule,MatButtonModule,
+    MatIconButton, MatIconModule, MatFormFieldModule,
+    MatIconButton, MatTableModule, MatSidenavModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -30,8 +34,13 @@ export class LoginComponent {
   mailAuto: string="admin@gmail.com";
   claveAuto: string="00000Casa";
 
-  constructor(public auth: Auth, private firestore:Firestore, private router: Router){   
-  }
+  constructor(
+    public auth: Auth, 
+    private firestore:Firestore, 
+    private router: Router,
+    public logout:LogoutService,
+    private error:ErrorService
+  ){}
   
   //================REGISTRO USUARIOS NUEVOS================
 
@@ -51,7 +60,7 @@ export class LoginComponent {
   {
     signInWithEmailAndPassword(this.auth, this.usuario, this.claveUsuario).then((res)=>{
       this.errorLogeo = false;
-      this.Toast.fire(
+      this.error.Toast.fire(
         {
           title:'Inicio de Sesión exitosa',
           icon:'success'
@@ -65,7 +74,7 @@ export class LoginComponent {
       switch(e.code)
       {        
         case "auth/invalid-credential":
-          this.Toast.fire(
+          this.error.Toast.fire(
             {
               title:'Usuario o contraseña invalidos',
               text:'Ingrese los datos nuevamente',
@@ -74,7 +83,7 @@ export class LoginComponent {
           )
           break;
         case "auth/invalid-email":
-          this.Toast.fire(
+          this.error.Toast.fire(
             {
               title:'Email invalido',
               text:'Ingrese los datos nuevamente',
@@ -83,7 +92,7 @@ export class LoginComponent {
           )
           break;
         case "auth/missing-password":
-          this.Toast.fire(
+          this.error.Toast.fire(
             {
               title:'Falta contraseña',
               text:'Ingrese los datos nuevamente',
@@ -92,7 +101,7 @@ export class LoginComponent {
           )
           break;
         default:
-          this.Toast.fire(
+          this.error.Toast.fire(
             {
               title:'Faltan datos',
               text:'Ingrese los datos nuevamente',
@@ -120,19 +129,6 @@ export class LoginComponent {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
-
-  //================ALERTAS================
-  Toast = Swal.mixin({
-    toast: true,
-    position: "bottom-end",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    }
-  });
 
 
   limpiarUsuario()
