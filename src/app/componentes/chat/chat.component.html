@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+
+
+<ng-container *ngFor="let chat of chatsCollection; let i = index">
+    <mat-card class="example-card" appearance="outlined" max-width="200px">
+        <mat-card-header>
+            <mat-card-title>{{ chat.Usuario }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        <p>{{ chat.Chat }}</p>
+        </mat-card-content>
+        <mat-card-footer class="example-card-footer">
+            <mat-card-subtitle>{{ (chat.Fecha.seconds * 1000) | date:'dd/MM/yy hh:ss' }}</mat-card-subtitle>
+        </mat-card-footer>
+    </mat-card>
+</ng-container>  
+
+
+<div class="container">
+    <mat-form-field appearance="fill">
+        <input matInput  type="text" placeholder="Enviar Mensaje..." [(ngModel)]="chat"> 
+        <span></span>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="registrarChatEnDB()">
+        <span class="material-symbols-outlined">send</span>
+    </button>
+</div>

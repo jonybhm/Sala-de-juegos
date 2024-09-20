@@ -10,15 +10,22 @@
     
     <span class="spacer"></span>
     
+    
     <p>{{auth.currentUser?.email}}</p>    
+    
+    <button mat-flat-button routerLink="/quiensoy" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">person_play</span>
+        QUIEN SOY
+    </button>
+    <button mat-flat-button (click)="abrirChat()" class="boton">
+        <span class="material-symbols-outlined">chat</span>
+        CHAT
+    </button>
     <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
         <span class="material-symbols-outlined">logout</span>
         CERRAR SESIÓN
     </button>
-    <button mat-flat-button routerLink="/quiensoy" routerLinkActive="active-route">
-        <span class="material-symbols-outlined">person_play</span>
-        QUIEN SOY
-    </button>
+    
 </mat-toolbar>
     
 <div class="container">
@@ -76,7 +83,7 @@
             <p>Juego de Memoria</p>        
         </mat-card-content>
     </mat-card>
+    
 
     
 </div>
-

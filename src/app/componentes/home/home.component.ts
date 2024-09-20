@@ -14,15 +14,21 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import { LogoutService } from '../../servicios/logout.service';
 import { ErrorService } from '../../servicios/error.service';
-
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
+import { ChatComponent } from '../chat/chat.component';
+import {MatListModule} from '@angular/material/list';
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    RouterOutlet,RouterLink,RouterLinkActive,
-    MatCardModule,MatButtonModule,MatToolbarModule,
-    MatFormFieldModule,MatTableModule,FormsModule,
-    CommonModule,MatSidenavModule],
+    RouterOutlet,RouterLink,RouterLinkActive, MatListModule,
+    MatCardModule,MatButtonModule,MatBottomSheetModule,
+    MatToolbarModule, MatFormFieldModule,MatTableModule, 
+    FormsModule, CommonModule,MatSidenavModule,ChatComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -33,34 +39,37 @@ export class HomeComponent {
     private router:Router, 
     private firestore:Firestore,
     public logout:LogoutService,
-    private error:ErrorService
+    private error:ErrorService,
+    private _bottomSheet:MatBottomSheet 
   ){}
 
-  
+  abrirChat(): void {
+    this._bottomSheet.open(ChatComponent);
+  }
 
-   //================REGISTRO DE LOGINS EN BASE DE DATOS================
-   displayedColumns: string[] = ['usuario', 'fecha'];
-   loginsCollection: any[] = [];
-   countLogins: number = 0;
-   private sub!: Subscription;
+  //  //================REGISTRO DE LOGINS EN BASE DE DATOS================
+  //  displayedColumns: string[] = ['usuario', 'fecha'];
+  //  loginsCollection: any[] = [];
+  //  countLogins: number = 0;
+  //  private sub!: Subscription;
  
     
-   obtenerDatosLoginsDB ()
-   {
-     let coleccion = collection(this.firestore, 'logins');
+  //  obtenerDatosLoginsDB ()
+  //  {
+  //    let coleccion = collection(this.firestore, 'logins');
      
  
-     const filteredQuery = query(
-       coleccion,orderBy("Fecha","desc")
-     );
+  //    const filteredQuery = query(
+  //      coleccion,orderBy("Fecha","desc")
+  //    );
  
-     const observable = collectionData(filteredQuery); //canal de comunicacon que me permite ver si hubo cambios en la base de datos 
+  //    const observable = collectionData(filteredQuery); //canal de comunicacon que me permite ver si hubo cambios en la base de datos 
  
-     this.sub = observable.subscribe((respuesta:any)=>{
-       this.loginsCollection = respuesta;
-       this.countLogins = this.loginsCollection.length;
-       console.log(respuesta);
-     })
-   }  
+  //    this.sub = observable.subscribe((respuesta:any)=>{
+  //      this.loginsCollection = respuesta;
+  //      this.countLogins = this.loginsCollection.length;
+  //      console.log(respuesta);
+  //    })
+  //  }  
 
 }
