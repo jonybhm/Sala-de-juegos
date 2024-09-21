@@ -21,6 +21,8 @@ import {
 } from '@angular/material/bottom-sheet';
 import { ChatComponent } from '../chat/chat.component';
 import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -28,7 +30,7 @@ import {MatListModule} from '@angular/material/list';
     RouterOutlet,RouterLink,RouterLinkActive, MatListModule,
     MatCardModule,MatButtonModule,MatBottomSheetModule,
     MatToolbarModule, MatFormFieldModule,MatTableModule, 
-    FormsModule, CommonModule,MatSidenavModule,ChatComponent],
+    FormsModule, CommonModule,MatSidenavModule,ChatComponent,MatMenuModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

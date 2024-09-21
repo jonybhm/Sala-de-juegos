@@ -7,16 +7,20 @@ import { MayorMenorJuegoComponent } from './componentes/juegos/mayor-menor-juego
 import { PreguntadosJuegoComponent } from './componentes/juegos/preguntados-juego/preguntados-juego.component';
 import { QuienSoyComponent } from './componentes/quien-soy/quien-soy.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
+import { JuegosModule } from './componentes/juegos/juegos/juegos.module';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'login', pathMatch: "full"},
     {path: 'login', component: LoginComponent},
     {path: 'registro', component: RegistroComponent},
     {path: 'home', component: HomeComponent},
-    {path: 'ahorcado', component: AhorcadoJuegoComponent},
-    {path: 'preguntados', component: PreguntadosJuegoComponent},
-    {path: 'memoria', component: MayorMenorJuegoComponent},
-    {path: 'transporte', component: TransporteJuegoComponent},
     {path: 'quiensoy', component: QuienSoyComponent},
+    {path: 'juegos', loadChildren:()=>
+        import('./componentes/juegos/juegos/juegos.module').then((m)=>m.JuegosModule)
+    },
+    // {path: 'ahorcado', component: AhorcadoJuegoComponent},
+    // {path: 'preguntados', component: PreguntadosJuegoComponent},
+    // {path: 'memoria', component: MayorMenorJuegoComponent},
+    // {path: 'transporte', component: TransporteJuegoComponent},
     {path: '**', component: HomeComponent }
 ];
