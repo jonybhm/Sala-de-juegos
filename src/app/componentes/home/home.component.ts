@@ -48,30 +48,6 @@ export class HomeComponent {
   abrirChat(): void {
     this._bottomSheet.open(ChatComponent);
   }
-
-  //  //================REGISTRO DE LOGINS EN BASE DE DATOS================
-  //  displayedColumns: string[] = ['usuario', 'fecha'];
-  //  loginsCollection: any[] = [];
-  //  countLogins: number = 0;
-  //  private sub!: Subscription;
  
-    
-  //  obtenerDatosLoginsDB ()
-  //  {
-  //    let coleccion = collection(this.firestore, 'logins');
-     
- 
-  //    const filteredQuery = query(
-  //      coleccion,orderBy("Fecha","desc")
-  //    );
- 
-  //    const observable = collectionData(filteredQuery); //canal de comunicacon que me permite ver si hubo cambios en la base de datos 
- 
-  //    this.sub = observable.subscribe((respuesta:any)=>{
-  //      this.loginsCollection = respuesta;
-  //      this.countLogins = this.loginsCollection.length;
-  //      console.log(respuesta);
-  //    })
-  //  }  
 
 }

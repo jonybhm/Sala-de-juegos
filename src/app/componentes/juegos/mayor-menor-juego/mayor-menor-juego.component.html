@@ -1,3 +1,78 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<mat-toolbar>
+    
+    <img src="../../assets/maquina-de-arcade.png" alt="logo" class="logoimg">    
+    <span>
+        SALA DE JUEGOS
+        <span class="material-symbols-outlined">joystick</span>        
+    </span>
+    
+    <span class="spacer"></span>
+    
+    
+    <p>{{auth.currentUser?.email}}</p>    
+    
+    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+        <span class="material-symbols-outlined">logout</span>
+        CERRAR SESIÓN
+    </button>
+    
+</mat-toolbar>
 <div class="container">
-    <p>mayor-menor-juego works!</p>
+    <h2>JUEGOS DISPONIBLES</h2>
+</div>     
+
+
+<div class="containter">
+    <ng-container *ngIf="cartaActual">
+        <ng-container [ngSwitch]="cartaActual.suit">
+            <ng-container *ngSwitchCase="'CLUBS'">
+                <div class="containter-juegos">
+                    <p>{{cartaActual.value}} de Trebol</p>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'SPADES'">
+                <div class="containter-juegos">
+                    <p>{{cartaActual.value}} de Pica</p>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'HEARTS'">
+                <div class="containter-juegos">
+                    <p>{{cartaActual.value}} de Corazones</p>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'DIAMONDS'">
+                <div class="containter-juegos">
+                    <p>{{cartaActual.value}} de Diamantes</p>
+                </div>
+            </ng-container>
+        </ng-container>
+
+        <div class="containter-juegos">
+            <img src="{{cartaActual.image}}" alt="carta actual">
+            
+            <mat-card appearance="outlined" class="carta">    
+                <button mat-flat-button (click)="robarCarta()" class="boton">
+                    <span class="material-symbols-outlined" >remove</span>
+                    MENOR
+                </button>
+                <button mat-flat-button (click)="robarCarta()" class="boton">
+                    <span class="material-symbols-outlined" >equal</span>
+                    IGUAL
+                </button>
+                <button mat-flat-button (click)="robarCarta()" class="boton">
+                    <span class="material-symbols-outlined" >add</span>
+                    MAYOR
+                </button>
+                <div class="containter-juegos">
+                    <mat-card appearance="outlined" class="example-card">    
+                        <p>PUNTAJE: {{puntajeActual}}</p>
+                    </mat-card>       
+                </div>
+            </mat-card>
+        </div>        
+        
+    </ng-container >
 </div>
+
