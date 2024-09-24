@@ -12,7 +12,10 @@
     
     
     <p>{{auth.currentUser?.email}}</p>    
-    
+    <button mat-flat-button color="primary" routerLink="/home" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">joystick</span>
+        JUEGOS
+    </button>
     <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
         <span class="material-symbols-outlined">logout</span>
         CERRAR SESIÓN
@@ -20,7 +23,7 @@
     
 </mat-toolbar>
 <div class="container">
-    <h2>JUEGOS DISPONIBLES</h2>
+    <h2>MAYOR O MENOR</h2>
 </div>     
 
 
@@ -53,15 +56,15 @@
             <img src="{{cartaActual.image}}" alt="carta actual">
             
             <mat-card appearance="outlined" class="carta">    
-                <button mat-flat-button (click)="robarCarta()" class="boton">
+                <button mat-flat-button (click)="robarCarta('menor')" class="boton" [disabled]="juegoPerdido">
                     <span class="material-symbols-outlined" >remove</span>
                     MENOR
                 </button>
-                <button mat-flat-button (click)="robarCarta()" class="boton">
+                <button mat-flat-button (click)="robarCarta('igual')" class="boton" [disabled]="juegoPerdido">
                     <span class="material-symbols-outlined" >equal</span>
                     IGUAL
                 </button>
-                <button mat-flat-button (click)="robarCarta()" class="boton">
+                <button mat-flat-button (click)="robarCarta('mayor')" class="boton" [disabled]="juegoPerdido">
                     <span class="material-symbols-outlined" >add</span>
                     MAYOR
                 </button>
@@ -74,5 +77,24 @@
         </div>        
         
     </ng-container >
+
+    <ng-container *ngIf="juegoPerdido">
+        <div class="containter-juegos">
+            
+            <p>PERDISTE</p>
+            
+            <mat-card appearance="outlined" class="carta">    
+                <button mat-flat-button (click)="iniciarJuego()" class="boton">
+                    <span class="material-symbols-outlined" >restart_alt</span>
+                    VOLVER A JUGAR
+                </button>
+                <div class="containter-juegos">
+                    <mat-card appearance="outlined" class="example-card">    
+                        <p>PUNTAJE: {{puntajeFinal}}</p>
+                    </mat-card>       
+                </div>
+            </mat-card>
+        </div>    
+    </ng-container>
 </div>
 
