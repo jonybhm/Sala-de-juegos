@@ -91,7 +91,9 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
 
     if(this.letrasAdivinadas.every(valor => valor === true))
     {
+      console.log(this.letrasAdivinadas);
       this.palabraTerminada = true;
+      this.puntajeFinal += this.puntajeActual;
     }
 
     if(!this.respuestaCorrecta)
