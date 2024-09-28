@@ -1,3 +1,230 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<mat-toolbar>
+    
+    <img src="../../assets/maquina-de-arcade.png" alt="logo" class="logoimg">    
+    <span>
+        SALA DE JUEGOS
+        <span class="material-symbols-outlined">joystick</span>        
+    </span>
+    
+    <span class="spacer"></span>
+    
+    
+    <p>{{auth.currentUser?.email}}</p>    
+    <button mat-flat-button color="primary" routerLink="/home" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">joystick</span>
+        JUEGOS
+    </button>
+    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+        <span class="material-symbols-outlined">logout</span>
+        CERRAR SESIÓN
+    </button>
+    
+</mat-toolbar>
 <div class="container">
-    <p>transporte-juego works!</p>
+    <h2>TRANSPORTE DE PAQUETES</h2>
+</div>     
+
+<div class="containter-juegos">        
+    <mat-card appearance="outlined">    
+        <table class="tabla-transporte" >
+            <thead>
+                <tr>
+                    <th>
+                    PARADAS: {{paradasMaximas}}
+                </th>
+                <!-- Depositos -->
+                <th>
+                    <div class="containter-celda">
+                        <p class="deposito-1">
+                            Depósito 1
+                        </p>
+                        [{{depositos.get('deposito1')?.[0]}}/{{depositos.get('deposito1')?.[1]}}]
+                        <img src="{{depositos.get('deposito1')?.[3]}}" alt="Estantería 1A" >
+                    </div>
+                </th>
+                <th>
+                    <div class="containter-celda">
+                        <p class="deposito-2">
+                            Depósito 2
+                        </p>
+                        [{{depositos.get('deposito2')?.[0]}}/{{depositos.get('deposito2')?.[1]}}]
+                        <img src="{{depositos.get('deposito2')?.[3]}}" alt="Estantería 1A" >
+                    </div>
+                </th>
+                <th>
+                    <div class="containter-celda">
+                        <p class="deposito-3">
+                            Depósito 3
+                        </p>                                                    
+                        [{{depositos.get('deposito3')?.[0]}}/{{depositos.get('deposito3')?.[1]}}]
+                        <img src="{{depositos.get('deposito3')?.[3]}}" alt="Estantería 1A" >
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    <div class="containter-celda">
+                        <p class="fabrica-A">
+                            Fábrica A
+                        </p>                                                    
+                        [{{fabricas.get('fabricaA')?.[0]}}/{{fabricas.get('fabricaA')?.[1]}}]
+                        <img src="{{fabricas.get('fabricaA')?.[3]}}" alt="Estantería 1A" >
+                        <img src="../../assets/transporte/camion.png" alt="camion" class="logoimg">
+                    </div>
+                </th>
+                <!-- Celdas para las estanterías de la Fábrica A -->
+                <td>
+                    <!-- Estantería 1A -->
+                    <div class="containter-celda">
+                        <p class="deposito-1"> Estantería 1A</p>
+                        [{{estanterias.get('estanteria1A')?.[0]}} Cajas]
+                        <img src="{{estanterias.get('estanteria1A')?.[3]}}" alt="Estantería 1A" >
+                        <span class="fabrica-A">
+                            ${{estanterias.get('estanteria1A')?.[1]}} x Caja
+                        </span>
+                    </div>
+                    <button (click)="moverCajas('quitar', 'estanteria1A')" class="btn fabrica-A" [disabled]="juegoTerminado">
+                        <span class="material-symbols-outlined">remove</span>
+                    </button>
+                        <button (click)="moverCajas('agregar', 'estanteria1A')" class="btn fabrica-A" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                </td>
+                <td>
+                    <!-- Estantería 2A -->
+                    <div class="containter-celda">
+                        <p class="deposito-2">Estantería 2A</p>
+                        [{{estanterias.get('estanteria2A')?.[0]}} Cajas]
+                        <img src="{{estanterias.get('estanteria2A')?.[3]}}" alt="Estantería 2A" >
+                        <span class="fabrica-A">
+                            ${{estanterias.get('estanteria2A')?.[1]}} x Caja
+                        </span>
+                    </div>
+                    <button (click)="moverCajas('quitar', 'estanteria2A')" class="btn fabrica-A" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <button (click)="moverCajas('agregar', 'estanteria2A')" class="btn fabrica-A" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                </td>
+                <td>
+                    <div class="containter-celda">
+                        <!-- Estantería 3A -->
+                        <p class="deposito-3">Estantería 3A</p>
+                        [{{estanterias.get('estanteria3A')?.[0]}} Cajas]
+                        <img src="{{estanterias.get('estanteria3A')?.[3]}}" alt="Estantería 3A" >
+                        <span class="fabrica-A">
+                            ${{estanterias.get('estanteria3A')?.[1]}} x Caja
+                        </span>
+                    </div>
+                        <button (click)="moverCajas('quitar', 'estanteria3A')" class="btn fabrica-A" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <button (click)="moverCajas('agregar', 'estanteria3A')" class="btn fabrica-A" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <div class="containter-celda">
+                        <p class="fabrica-B">
+                            Fábrica B
+                        </p>                                                    
+                        [{{fabricas.get('fabricaB')?.[0]}}/{{fabricas.get('fabricaB')?.[1]}}]
+                        <img src="{{fabricas.get('fabricaB')?.[3]}}" alt="Estantería 1A" >
+                        <img src="../../assets/transporte/camion.png" alt="camion" class="logoimg">
+                    </div>
+                </th>
+                <!-- Celdas para las estanterías de la Fábrica B -->
+                <td>
+                    <!-- Estantería 1B -->
+                    <div class="containter-celda">
+                        <p class="deposito-1">Estantería 1B</p>
+                        [{{estanterias.get('estanteria1B')?.[0]}} Cajas]
+                        <img src="{{estanterias.get('estanteria1B')?.[3]}}" alt="Estantería 1B" >
+                        <span class="fabrica-B">
+                            ${{estanterias.get('estanteria1B')?.[1]}} x Caja
+                        </span>
+                    </div>
+                        <button (click)="moverCajas('quitar', 'estanteria1B')" class="btn fabrica-B" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <button (click)="moverCajas('agregar', 'estanteria1B')" class="btn fabrica-B" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                </td>
+                <td>
+                    <!-- Estantería 2B -->
+                    <div class="containter-celda">
+                        <p class="deposito-2">Estantería 2B</p>
+                        [{{estanterias.get('estanteria2B')?.[0]}} Cajas]
+                        <img src="{{estanterias.get('estanteria2B')?.[3]}}" alt="Estantería 2B" >
+                        <span class="fabrica-B">
+                            ${{estanterias.get('estanteria2B')?.[1]}} x Caja
+                        </span>
+                    </div>
+                        <button (click)="moverCajas('quitar', 'estanteria2B')" class="btn fabrica-B" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <button (click)="moverCajas('agregar', 'estanteria2B')" class="btn fabrica-B" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                </td>
+                <td>
+                    <!-- Estantería 3B -->
+                    <div class="containter-celda">
+                        <p class="deposito-3">Estantería 3B</p>
+                        [{{estanterias.get('estanteria3B')?.[0]}} Cajas]
+                        <img src="{{estanterias.get('estanteria3B')?.[3]}}" alt="Estantería 3B" >
+                        <span class="fabrica-B">
+                            ${{estanterias.get('estanteria3B')?.[1]}} x Caja
+                        </span>
+                    </div>
+                        <button (click)="moverCajas('quitar', 'estanteria3B')" class="btn fabrica-B" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <button (click)="moverCajas('agregar', 'estanteria3B')" class="btn fabrica-B" [disabled]="juegoTerminado">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</mat-card>
+    
+    <mat-card appearance="outlined" class="carta-juego">    
+
+        <ng-container *ngIf="!juegoTerminado">
+            <mat-card appearance="outlined" class="example-card">    
+                <p>PUNTAJE: {{puntajeActual}}</p>
+            </mat-card>
+            
+            <button mat-flat-button color="primary" (click)="enviar()" class="boton">
+                <span class="material-symbols-outlined">send</span>
+                ENVIAR
+            </button>
+        </ng-container>
+            
+        <ng-container *ngIf="juegoTerminado">
+            
+            <mat-card appearance="outlined" class="example-card">    
+                <p>PUNTAJE: {{puntajeActual}}</p>
+            </mat-card>    
+            
+            <button mat-flat-button (click)="iniciarJuego()" class="boton">
+                <span class="material-symbols-outlined" >restart_alt</span>
+                REINICIAR
+            </button>
+        </ng-container>
+
+    </mat-card>  
+    
+    
 </div>
+
+

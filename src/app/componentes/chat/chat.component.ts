@@ -67,4 +67,8 @@ export class ChatComponent implements OnInit{
   ngOnInit(): void {
     this.obtenerChatsDB();
   }
+
+  obtenerNombreUsuario(email: string): string {
+    return email.split('@')[0]; 
+  }
 }

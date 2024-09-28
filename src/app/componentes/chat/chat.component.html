@@ -3,17 +3,19 @@
 
 
 <ng-container *ngFor="let chat of chatsCollection; let i = index">
-    <mat-card class="chat-card" appearance="outlined">
-        <mat-card-header>
-            <mat-card-title>{{ chat.Usuario }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-        <p>{{ chat.Chat }}</p>
-        </mat-card-content>
-        <mat-card-footer class="example-card-footer">
-            <mat-card-subtitle>{{ (chat.Fecha.seconds * 1000) | date:'dd/MM/yy hh:ss' }}</mat-card-subtitle>
-        </mat-card-footer>
-    </mat-card>
+    <!-- <ng-container *ngClass="{'my-chat': chat.Usuario === auth.currentUser?.email, 'other-chat': chat.Usuario !== auth.currentUser?.email}"> -->
+        <mat-card class="chat-card" appearance="outlined">
+            <mat-card-header class="chat-header">
+                <mat-card-title>{{ obtenerNombreUsuario(chat.Usuario)}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+            <span class="chat">{{ chat.Chat }}</span>
+            </mat-card-content>
+            <mat-card-footer class="chat-footer">
+                <mat-card-subtitle>{{ (chat.Fecha.seconds * 1000) | date:'dd/MM/yy hh:mm' }}</mat-card-subtitle>
+            </mat-card-footer>
+        </mat-card>
+    <!-- </ng-container> -->
 </ng-container>  
 
 

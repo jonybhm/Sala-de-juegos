@@ -10,12 +10,14 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AhorcadoJuegoComponent } from '../ahorcado-juego/ahorcado-juego.component';
+import { TransporteJuegoComponent } from '../transporte-juego/transporte-juego.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
-  declarations: [MayorMenorJuegoComponent,AhorcadoJuegoComponent],
+  declarations: [MayorMenorJuegoComponent,AhorcadoJuegoComponent, TransporteJuegoComponent],
   imports: [
-    CommonModule,JuegosRoutingModule,FormsModule, MatButtonModule,
+    CommonModule,JuegosRoutingModule,FormsModule, MatButtonModule, MatTableModule,
     MatCardModule, MatToolbarModule,MatFormFieldModule, RouterLink, RouterLinkActive
   ],
   providers: []

@@ -15,14 +15,13 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
   palabraActual: any;
   palabraPrevia: any;
   palabraDivididaEnCaracteres: any[] =[];
-  letrasAdivinadas: boolean[] = this.palabraDivididaEnCaracteres;
+  letrasAdivinadas: boolean[] = [];
   teclaPresionada:string[] = [];
   sub!: Subscription;
   puntajeActual:number = 0;
   intentos:number = 10;
   respuestaCorrecta: boolean = false;
   juegoPerdido:boolean = false;  
-  puntajeFinal:number = 0;
   palabraTerminada:boolean = false;
 
   constructor(
@@ -45,7 +44,6 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
   iniciarJuego()
   {
     this.puntajeActual = 0;
-    this.puntajeFinal = 0;
     this.intentos = 10;
     this.juegoPerdido = false;
     this.palabraTerminada = false;
@@ -55,7 +53,6 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
 
   siguientePalabra()
   {
-    this.puntajeActual = 0;
     this.intentos = 10;
     this.juegoPerdido = false;
     this.palabraTerminada = false;
@@ -68,7 +65,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
     this.sub = this.palabras.randomizarPalabra().subscribe(palabraRandom => {
       this.palabraActual = String(palabraRandom).toUpperCase();
       this.palabraDivididaEnCaracteres= this.palabraActual.split('');
-      this.letrasAdivinadas = this.letrasAdivinadas.fill(false);
+      this.letrasAdivinadas = Array(this.palabraDivididaEnCaracteres.length).fill(false);
       console.log(this.palabraActual);
       console.log(this.palabraDivididaEnCaracteres);
     });
@@ -89,11 +86,10 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
       }      
     });
 
-    if(this.letrasAdivinadas.every(valor => valor === true))
+    if(this.letrasAdivinadas.every((valor) => valor === true))
     {
       console.log(this.letrasAdivinadas);
       this.palabraTerminada = true;
-      this.puntajeFinal += this.puntajeActual;
     }
 
     if(!this.respuestaCorrecta)
@@ -103,7 +99,6 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
 
     if(this.intentos === 0)
     {
-      this.puntajeFinal += this.puntajeActual;
       this.juegoPerdido = true;
     }
   }

@@ -30,104 +30,101 @@
 <div class="containter">
     <ng-container *ngIf="palabraActual">
         
-            
-        <div class="containter-juegos">
-            <p>{{palabraActual}}</p>
-        </div>
-           
-        <div class="containter-juegos">
-            <mat-card appearance="outlined" class="carta"> 
-                <div class="teclado">
-                    <div class="linea-teclado">
-                        <button class="tecla" (click)="detectarLetraTeclado('Q')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('Q')">Q</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('W')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('W')">W</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('E')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('E')">E</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('R')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('R')">R</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('T')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('T')">T</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('Y')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('Y')">Y</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('U')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('U')">U</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('I')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('I')">I</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('O')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('O')">O</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('P')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('P')">P</button>
-                    </div>
-            
-                    <div class="linea-teclado">
-                        <button class="tecla" (click)="detectarLetraTeclado('A')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('A')">A</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('S')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('S')">S</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('D')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('D')">D</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('F')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('F')">F</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('G')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('G')">G</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('H')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('H')">H</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('J')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('J')">J</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('K')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('K')">K</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('L')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('L')">L</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('Ñ')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('Ñ')">Ñ</button>
-                    </div>
-            
-                    <div class="linea-teclado">
-                        <button class="tecla" (click)="detectarLetraTeclado('Z')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('Z')">Z</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('X')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('X')">X</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('C')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('C')">C</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('V')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('V')">V</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('B')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('B')">B</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('N')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('N')">N</button>
-                        <button class="tecla" (click)="detectarLetraTeclado('M')" [disabled]="juegoPerdido" [disabled]="inhabilitarTecla('M')">M</button>
-                    </div>           
-                    
-                </div>                
-            </mat-card>
+        <div class="containter-ahorcado">
 
-            <div class="containter-juegos">
+            <div class="containter-teclado">
+
+                <div class="linea-teclado">
+                    <ng-container *ngFor="let char of palabraDivididaEnCaracteres; let i = index">
+                            <span class="tecla" *ngIf="letrasAdivinadas[i]">{{char}}</span>
+                            <span class="tecla" *ngIf="!letrasAdivinadas[i]">_</span>                       
+                    </ng-container>  
+                </div>
+        
+                <mat-card appearance="outlined" class="carta"> 
+                    <div class="teclado">
+                        <div class="linea-teclado">
+                            <button class="tecla" (click)="detectarLetraTeclado('Q')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('Q')">Q</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('W')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('W')">W</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('E')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('E')">E</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('R')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('R')">R</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('T')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('T')">T</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('Y')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('Y')">Y</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('U')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('U')">U</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('I')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('I')">I</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('O')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('O')">O</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('P')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('P')">P</button>
+                        </div>
+                
+                        <div class="linea-teclado">
+                            <button class="tecla" (click)="detectarLetraTeclado('A')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('A')">A</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('S')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('S')">S</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('D')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('D')">D</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('F')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('F')">F</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('G')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('G')">G</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('H')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('H')">H</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('J')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('J')">J</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('K')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('K')">K</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('L')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('L')">L</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('Ñ')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('Ñ')">Ñ</button>
+                        </div>
+                
+                        <div class="linea-teclado">
+                            <button class="tecla" (click)="detectarLetraTeclado('Z')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('Z')">Z</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('X')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('X')">X</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('C')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('C')">C</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('V')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('V')">V</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('B')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('B')">B</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('N')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('N')">N</button>
+                            <button class="tecla" (click)="detectarLetraTeclado('M')" [disabled]="juegoPerdido || palabraTerminada" [disabled]="inhabilitarTecla('M')">M</button>
+                        </div>           
+                        
+                    </div>                
+                </mat-card>
+            </div>
+
                 <!-- <img src="https://cdn-icons-png.freepik.com/512/3274/3274156.png" alt="carta actual"> -->
                 
-                <mat-card appearance="outlined" class="carta">    
-                    <button mat-flat-button (click)="siguientePalabra()" class="boton" [disabled]="juegoPerdido" [disabled]="!palabraTerminada">
-                        <span class="material-symbols-outlined" >moving</span>
-                        SIGUIENTE PALABRA
-                    </button>
-                    
-                    <div class="containter-juegos">
+                <mat-card appearance="outlined" class="carta-juego">    
+
+                    <ng-container *ngIf="!juegoPerdido">
+                        <button mat-flat-button (click)="siguientePalabra()" class="boton" [disabled]="!palabraTerminada">
+                            <span class="material-symbols-outlined" >moving</span>
+                            SIGUIENTE
+                        </button>    
+                                       
                         <mat-card appearance="outlined" class="example-card">    
                             <p>INTENTOS: {{intentos}}</p>
                         </mat-card>       
-                    </div>
-    
-                    <div class="containter-juegos">
+                        
                         <mat-card appearance="outlined" class="example-card">    
                             <p>PUNTAJE: {{puntajeActual}}</p>
                         </mat-card>       
-                    </div>
-    
+                    </ng-container>
+                        
                     <ng-container *ngIf="juegoPerdido">
-                        <div class="containter-juegos">                        
                             <p>PERDISTE</p>                        
-                            <mat-card appearance="outlined" class="carta">                               
-                                <div class="containter-juegos">
-                                        <p>PUNTAJE FINAL: {{puntajeFinal}}</p>
-                                </div>
-                            </mat-card>
-    
+                            
                             <button mat-flat-button (click)="iniciarJuego()" class="boton">
                                 <span class="material-symbols-outlined" >restart_alt</span>
                                 REINICIAR
                             </button>
-                        </div>    
+
+                            <mat-card appearance="outlined" class="example-card">    
+                                <p>INTENTOS: {{intentos}}</p>
+                            </mat-card>       
+                            
+                            <mat-card appearance="outlined" class="example-card">    
+                                <p>PUNTAJE: {{puntajeActual}}</p>
+                            </mat-card>    
                     </ng-container>
+
                 </mat-card>  
                 
                 
-            </div>     
         </div>
 
-        <div class="containter-juegos">
-            <div class="linea-teclado">
-                <ng-container *ngFor="let char of palabraDivididaEnCaracteres; let i = index">
-                        <span class="tecla" *ngIf="letrasAdivinadas[i]">{{char}}</span>
-                        <span class="tecla" *ngIf="!letrasAdivinadas[i]">_</span>                       
-                </ng-container>  
-            </div>
-        </div>
-
+        
 
            
     </ng-container >

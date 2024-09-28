@@ -29,72 +29,66 @@
 
 <div class="containter">
     <ng-container *ngIf="cartaActual">
-        <ng-container [ngSwitch]="cartaActual.suit">
-            <ng-container *ngSwitchCase="'CLUBS'">
-                <div class="containter-juegos">
-                    <p>{{cartaActual.value}} de Trebol</p>
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'SPADES'">
-                <div class="containter-juegos">
-                    <p>{{cartaActual.value}} de Pica</p>
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'HEARTS'">
-                <div class="containter-juegos">
-                    <p>{{cartaActual.value}} de Corazones</p>
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'DIAMONDS'">
-                <div class="containter-juegos">
-                    <p>{{cartaActual.value}} de Diamantes</p>
-                </div>
-            </ng-container>
-        </ng-container>
 
+                       
         <div class="containter-juegos">
-            <img src="{{cartaActual.image}}" alt="carta actual">
+            <img src="{{cartaActual.image}}" alt="carta actual">          
             
-            <mat-card appearance="outlined" class="carta">    
-                <button mat-flat-button (click)="robarCarta('menor')" class="boton" [disabled]="juegoPerdido">
-                    <span class="material-symbols-outlined" >remove</span>
-                    MENOR
-                </button>
-                <button mat-flat-button (click)="robarCarta('igual')" class="boton" [disabled]="juegoPerdido">
-                    <span class="material-symbols-outlined" >equal</span>
-                    IGUAL
-                </button>
-                <button mat-flat-button (click)="robarCarta('mayor')" class="boton" [disabled]="juegoPerdido">
-                    <span class="material-symbols-outlined" >add</span>
-                    MAYOR
-                </button>
-                <div class="containter-juegos">
-                    <mat-card appearance="outlined" class="example-card">    
-                        <p>PUNTAJE: {{puntajeActual}}</p>
-                    </mat-card>       
-                </div>
-            </mat-card>
+            <ng-container *ngIf="!juegoPerdido">
+
+                
+                <mat-card appearance="outlined" class="carta-juego">    
+                    
+                    <ng-container [ngSwitch]="cartaActual.suit">
+                        <ng-container *ngSwitchCase="'CLUBS'">
+                            <p>{{cartaActual.value}} de Trebol</p>                            
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'SPADES'">
+                            <p>{{cartaActual.value}} de Pica</p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'HEARTS'">
+                            <p>{{cartaActual.value}} de Corazones</p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'DIAMONDS'">
+                            <p>{{cartaActual.value}} de Diamantes</p>
+                        </ng-container>
+                    </ng-container>
+
+                    <button mat-flat-button (click)="robarCarta('menor')" class="boton" [disabled]="juegoPerdido">
+                        <span class="material-symbols-outlined" >remove</span>
+                        MENOR
+                    </button>
+                    <button mat-flat-button (click)="robarCarta('igual')" class="boton" [disabled]="juegoPerdido">
+                        <span class="material-symbols-outlined" >equal</span>
+                        IGUAL
+                    </button>
+                    <button mat-flat-button (click)="robarCarta('mayor')" class="boton" [disabled]="juegoPerdido">
+                        <span class="material-symbols-outlined" >add</span>
+                        MAYOR
+                    </button>
+                    
+                        <mat-card appearance="outlined" class="example-card">    
+                            <p>PUNTAJE: {{puntajeActual}}</p>
+                        </mat-card>       
+                    
+                </mat-card>
+            </ng-container>
+            
+            <ng-container *ngIf="juegoPerdido">
+                <mat-card appearance="outlined" class="carta-juego">    
+                    <p>PERDISTE</p>
+                    <button mat-flat-button (click)="iniciarJuego()" class="boton">
+                        <span class="material-symbols-outlined" >restart_alt</span>
+                        REINICIAR
+                    </button>
+                        <mat-card appearance="outlined" class="example-card">    
+                            <p>PUNTAJE: {{puntajeFinal}}</p>
+                        </mat-card>       
+                </mat-card>
+            </ng-container>
         </div>        
-        
+            
     </ng-container >
 
-    <ng-container *ngIf="juegoPerdido">
-        <div class="containter-juegos">
-            
-            <p>PERDISTE</p>
-            
-            <mat-card appearance="outlined" class="carta">    
-                <button mat-flat-button (click)="iniciarJuego()" class="boton">
-                    <span class="material-symbols-outlined" >restart_alt</span>
-                    VOLVER A JUGAR
-                </button>
-                <div class="containter-juegos">
-                    <mat-card appearance="outlined" class="example-card">    
-                        <p>PUNTAJE: {{puntajeFinal}}</p>
-                    </mat-card>       
-                </div>
-            </mat-card>
-        </div>    
-    </ng-container>
 </div>
 
