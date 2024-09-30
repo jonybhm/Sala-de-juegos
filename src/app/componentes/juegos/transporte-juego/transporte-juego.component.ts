@@ -18,9 +18,9 @@ export class TransporteJuegoComponent {
   paradasMaximasMinimas:number = 4;
   juegoTerminado:boolean = false;
   puntajeActual:number = 0;
-  valorOptimo:number = 0;
-  valorSumaGastosCajasDepositos:number = 0;
-  diferenciaConOptimo:number = 0;
+  costoOptimo:number = 0;
+  costoCotaSuperior:number = 0;
+  costoJugada:number = 0;
   errorJugador:boolean = false;
   mensajeErrorJugador:string = "";
   explicacionJuego1:string = "-Sumar o restar cajas que el camion repartira desde las fábricas";
@@ -46,8 +46,9 @@ export class TransporteJuegoComponent {
 
   iniciarJuego()
   {
-    this.valorOptimo = 900;
-    this.valorSumaGastosCajasDepositos = 0;
+    this.costoOptimo = 900;
+    this.costoCotaSuperior = 1300;
+    this.costoJugada = 0;
     this.puntajeActual = 0;
     this.errorJugador = false;
     this.juegoTerminado = false;
@@ -150,10 +151,21 @@ export class TransporteJuegoComponent {
   calcularPuntaje()
   {
     this.estanterias.forEach(estanteria => {
-      this.valorSumaGastosCajasDepositos += estanteria[0]* estanteria[1];
+      this.costoJugada += estanteria[0]* estanteria[1];
     });    
-    this.diferenciaConOptimo = this.valorSumaGastosCajasDepositos - this.valorOptimo;
-    this.puntajeActual = this.diferenciaConOptimo/10;
+
+    // cota superior - costo optimo -------------------- 10 puntos
+    // cota superior - costo jugada -------------------- X puntos
+    // X = (cota superior - costo jugada)*10/(cota superior - costo optimo)
+
+    let diferenciaCostoJugadaCostoCotaSuperior = this.costoCotaSuperior - this.costoJugada; 
+    let diferenciaCostoCotaSuperiorCostoOptimo = this.costoCotaSuperior - this.costoOptimo;
+    this.puntajeActual = Math.round((diferenciaCostoJugadaCostoCotaSuperior*10)/diferenciaCostoCotaSuperiorCostoOptimo);
+    
+    if(this.puntajeActual < 10)
+    {
+      Math.round(this.puntajeActual);
+    }
     this.juegoTerminado = true;
   }
 

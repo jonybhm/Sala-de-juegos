@@ -12,13 +12,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AhorcadoJuegoComponent } from '../ahorcado-juego/ahorcado-juego.component';
 import { TransporteJuegoComponent } from '../transporte-juego/transporte-juego.component';
 import { MatTableModule } from '@angular/material/table';
-
+import { PreguntadosJuegoComponent } from '../preguntados-juego/preguntados-juego.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
-  declarations: [MayorMenorJuegoComponent,AhorcadoJuegoComponent, TransporteJuegoComponent],
+  declarations: [MayorMenorJuegoComponent,AhorcadoJuegoComponent, TransporteJuegoComponent, PreguntadosJuegoComponent],
   imports: [
     CommonModule,JuegosRoutingModule,FormsModule, MatButtonModule, MatTableModule,
-    MatCardModule, MatToolbarModule,MatFormFieldModule, RouterLink, RouterLinkActive
+    MatCardModule, MatToolbarModule,MatFormFieldModule, RouterLink, RouterLinkActive,MatRadioModule
   ],
   providers: []
 })

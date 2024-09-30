@@ -1,3 +1,120 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<mat-toolbar>
+    
+    <img src="../../assets/maquina-de-arcade.png" alt="logo" class="logoimg">    
+    <span>
+        SALA DE JUEGOS
+        <span class="material-symbols-outlined">joystick</span>        
+    </span>
+    
+    <span class="spacer"></span>
+    
+    
+    <p>{{auth.currentUser?.email}}</p>    
+    <button mat-flat-button color="primary" routerLink="/home" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">joystick</span>
+        JUEGOS
+    </button>
+    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+        <span class="material-symbols-outlined">logout</span>
+        CERRAR SESIÓN
+    </button>
+    
+</mat-toolbar>
 <div class="container">
-    <p>preguntados-juego works!</p>
+    <h2>PREGUNTADOS</h2>
+</div>     
+
+
+<div class="containter">
+    <div class="containter-juegos">    
+        
+        <ng-container *ngIf="!categoriarSeleccionada">
+
+            <mat-card appearance="outlined" class="preguntados-card">    
+                <p> SELECCIONE UNA CATEGORIA </p>
+                <button mat-stroked-button (click)="seleccionarCategoria('geography')" class="boton">
+                    <span class="material-symbols-outlined" >globe</span>
+                    GEOGRAFIA
+                </button>
+                <button mat-stroked-button (click)="seleccionarCategoria('arts%26literature')" class="boton">
+                    <span class="material-symbols-outlined" >brush</span>
+                    ARTE Y LITERATURA
+                </button>
+                <button mat-stroked-button (click)="seleccionarCategoria('entertainment')" class="boton">
+                    <span class="material-symbols-outlined" >comedy_mask</span>
+                    ENTRETENIMIENTO
+                </button>
+                <button mat-stroked-button (click)="seleccionarCategoria('science%26nature')" class="boton">
+                    <span class="material-symbols-outlined" >experiment</span>
+                    CIENCIA Y NATURALEZA
+                </button>
+                <button mat-stroked-button (click)="seleccionarCategoria('sports%26leisure')" class="boton">
+                    <span class="material-symbols-outlined" >sports_and_outdoors</span>
+                    DEPORTE Y OCIO
+                </button>
+                <button mat-stroked-button (click)="seleccionarCategoria('history')" class="boton">
+                    <span class="material-symbols-outlined" >history_edu</span>
+                    HISTORIA
+                </button>
+            </mat-card>
+        
+        </ng-container>
+
+
+        <ng-container *ngIf="categoriarSeleccionada">      
+
+            <ng-container *ngIf="triviaActual">
+        
+                <mat-card appearance="outlined" class="preguntados-card">    
+                    <p>PREGUNTA {{preguntaIndex+1}}/{{preguntasPorCateogria}}: {{preguntaTriviaActual}}</p>
+
+                    <mat-radio-group [(ngModel)]="opcionSeleccionada" class="preguntados-card" aria-label="Select an option" [disabled]="juegoPerdido">
+                        <ng-container *ngFor="let char of todasLasRespuestasActuales; let i = index">
+                            <span>
+                                <mat-radio-button value="{{todasLasRespuestasActuales[i]}}">{{todasLasRespuestasActuales[i]}}</mat-radio-button>
+                            </span>    
+                        </ng-container>
+                    </mat-radio-group>
+
+                    <button mat-flat-button (click)="enviarRespuesta()" class="boton" [disabled]="juegoPerdido  ">
+                        <span class="material-symbols-outlined" >send</span>
+                        ENVIAR RESPUESTA
+                    </button>                        
+                </mat-card>       
+                
+                <ng-container *ngIf="!juegoPerdido">                        
+                    <mat-card appearance="outlined" class="carta-juego">    
+                        
+                            <mat-card appearance="outlined" class="example-card">    
+                                <p>PUNTAJE: {{puntajeActual}}</p>
+                            </mat-card>       
+
+                            <button mat-flat-button (click)="iniciarJuego()" class="boton">
+                                <span class="material-symbols-outlined" >restart_alt</span>
+                                CATEGORIAS
+                            </button>
+                    </mat-card>
+                </ng-container>
+                
+                <ng-container *ngIf="juegoPerdido">
+                    <mat-card appearance="outlined" class="carta-juego">    
+                        <p>JUEGO TERMINADO</p>
+                        <mat-card appearance="outlined" class="example-card">    
+                            <p>PUNTAJE FINAL: {{puntajeActual}} Respuestas correctas</p>
+                        </mat-card>       
+                        <button mat-flat-button (click)="iniciarJuego()" class="boton">
+                            <span class="material-symbols-outlined" >restart_alt</span>
+                            CATEGORIAS
+                        </button>
+                    </mat-card>
+                </ng-container>
+
+            </ng-container>         
+
+        </ng-container>
+    </div>       
+
 </div>
+

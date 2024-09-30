@@ -1,6 +1,6 @@
-import { Component , OnInit , OnDestroy, inject, Injectable} from '@angular/core';
+import { Component , OnInit , OnDestroy} from '@angular/core';
 import { CartasService } from '../../../servicios/cartas.service';
-import { Subscribable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LogoutService } from '../../../servicios/logout.service';
 import { Auth } from '@angular/fire/auth';
 

@@ -80,12 +80,12 @@ html {
 }
 
 .my-chat {
-  background-color: #00D56A;
+  color: #ffffff;
   margin-left: auto;
 }
 
 .other-chat {
-  background-color: #2c2f38; 
+  color: #afc2b2; 
   margin-right: auto;
 }
 
@@ -341,6 +341,32 @@ table {
   margin-bottom: 8px;  
   margin: 10px;
   padding: 10px;
+}
+
+.preguntados-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  max-width: 400px;
+  margin-bottom: 8px;  
+  margin: 10px;
+  padding: 10px;
+}
+
+
+.contenedor-imagenes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; 
+}
+
+.imagen-superpuesta {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130px;
+  height: 130px;
 }
 
 @font-face {

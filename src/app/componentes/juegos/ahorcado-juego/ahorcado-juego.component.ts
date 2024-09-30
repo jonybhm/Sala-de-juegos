@@ -20,6 +20,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
   sub!: Subscription;
   puntajeActual:number = 0;
   intentos:number = 10;
+  errores:number = 0 ;
   respuestaCorrecta: boolean = false;
   juegoPerdido:boolean = false;  
   palabraTerminada:boolean = false;
@@ -45,6 +46,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
   {
     this.puntajeActual = 0;
     this.intentos = 10;
+    this.errores = 0;
     this.juegoPerdido = false;
     this.palabraTerminada = false;
     this.teclaPresionada = [];
@@ -54,6 +56,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
   siguientePalabra()
   {
     this.intentos = 10;
+    this.errores = 0;
     this.juegoPerdido = false;
     this.palabraTerminada = false;
     this.teclaPresionada = [];
@@ -95,6 +98,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
     if(!this.respuestaCorrecta)
     {
       this.intentos -=1;      
+      this.errores +=1;
     }
 
     if(this.intentos === 0)
@@ -106,6 +110,13 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
   inhabilitarTecla(datoTecla: string)
   {
     return this.teclaPresionada.includes(datoTecla);
+  }
+
+  generarRango(cantidad: number): number[] 
+  {
+    let rango = Array.from({ length: cantidad }, (_, index) => index);
+    console.log(rango)
+    return rango;
   }
 }
 

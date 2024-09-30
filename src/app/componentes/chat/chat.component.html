@@ -3,8 +3,7 @@
 
 
 <ng-container *ngFor="let chat of chatsCollection; let i = index">
-    <!-- <ng-container *ngClass="{'my-chat': chat.Usuario === auth.currentUser?.email, 'other-chat': chat.Usuario !== auth.currentUser?.email}"> -->
-        <mat-card class="chat-card" appearance="outlined">
+        <mat-card class="chat-card" appearance="outlined" [ngClass]="{'my-chat': chat.Usuario === auth.currentUser?.email, 'other-chat': chat.Usuario !== auth.currentUser?.email}">
             <mat-card-header class="chat-header">
                 <mat-card-title>{{ obtenerNombreUsuario(chat.Usuario)}}</mat-card-title>
             </mat-card-header>
@@ -15,7 +14,6 @@
                 <mat-card-subtitle>{{ (chat.Fecha.seconds * 1000) | date:'dd/MM/yy hh:mm' }}</mat-card-subtitle>
             </mat-card-footer>
         </mat-card>
-    <!-- </ng-container> -->
 </ng-container>  
 
 

@@ -83,40 +83,40 @@
                 </mat-card>
             </div>
 
-                <!-- <img src="https://cdn-icons-png.freepik.com/512/3274/3274156.png" alt="carta actual"> -->
-                
-                <mat-card appearance="outlined" class="carta-juego">    
+            
+            <mat-card appearance="outlined" class="carta-juego">    
 
-                    <ng-container *ngIf="!juegoPerdido">
+                <ng-container *ngIf="!juegoPerdido">
                         <button mat-flat-button (click)="siguientePalabra()" class="boton" [disabled]="!palabraTerminada">
                             <span class="material-symbols-outlined" >moving</span>
                             SIGUIENTE
                         </button>    
-                                       
-                        <mat-card appearance="outlined" class="example-card">    
-                            <p>INTENTOS: {{intentos}}</p>
-                        </mat-card>       
-                        
+                                                
                         <mat-card appearance="outlined" class="example-card">    
                             <p>PUNTAJE: {{puntajeActual}}</p>
                         </mat-card>       
+                        
+                        <mat-card appearance="outlined" >   
+                            <ng-container *ngFor="let num of generarRango(errores)" class="contenedor-imagenes">
+                                    <img  [src]="'../../assets/ahorcado/' + num + '.png'" [alt]="'Imagen ' + num" class="imagen-superpuesta">
+                            </ng-container>
+                        </mat-card>       
                     </ng-container>
                         
-                    <ng-container *ngIf="juegoPerdido">
-                            <p>PERDISTE</p>                        
-                            
+                    <ng-container *ngIf="juegoPerdido">                           
                             <button mat-flat-button (click)="iniciarJuego()" class="boton">
                                 <span class="material-symbols-outlined" >restart_alt</span>
                                 REINICIAR
                             </button>
-
-                            <mat-card appearance="outlined" class="example-card">    
-                                <p>INTENTOS: {{intentos}}</p>
-                            </mat-card>       
-                            
                             <mat-card appearance="outlined" class="example-card">    
                                 <p>PUNTAJE: {{puntajeActual}}</p>
                             </mat-card>    
+
+                            <mat-card appearance="outlined" >   
+                                <ng-container *ngFor="let num of generarRango(errores)" class="contenedor-imagenes">
+                                        <img  [src]="'../../assets/ahorcado/' + num + '.png'" [alt]="'Imagen ' + num" class="imagen-superpuesta">
+                                </ng-container>
+                            </mat-card>  
                     </ng-container>
 
                 </mat-card>  
