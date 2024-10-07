@@ -27,5 +27,5 @@ export class QuienSoyComponent {
   apellido: string = "De Castro";
   informacionPersonal: string = "Desarrollador Full Stack | Python, C#, JavaScript, PHP | Apasionado por la resolución de problemas y el desarrollo de videojuegos con Godot"
   imagen: string = "Jonathan";
-  descripcionJuego: string = "Basado en el método de transporte de operativa, se basa en un camion llevando cajas de fabricas a depositos.";
+  descripcionJuego: string = "Sumar o restar cajas que el camion repartira desde las fábricas. Cada deposito tiene un valor por caja asociado de acuerdo a la fábrica. El objetivos es repartir todas las cajas, al menor costo posible, siempre teniendo en cuenta el numero de paradas determinadas";
 }

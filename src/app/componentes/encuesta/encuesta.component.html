@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<mat-toolbar>
+    
+    <img src="../../assets/maquina-de-arcade.png" alt="logo" class="logoimg">    
+    <span>
+        SALA DE JUEGOS
+        <span class="material-symbols-outlined">joystick</span>        
+    </span>
+    
+    <span class="spacer"></span>
+    
+    
+    <p>{{auth.currentUser?.email}}</p>    
+    
+    <button mat-flat-button routerLink="/quiensoy" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">person_play</span>
+        QUIEN SOY
+    </button>
+    
+    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+        <span class="material-symbols-outlined">logout</span>
+        CERRAR SESIÓN
+    </button>
+    
+</mat-toolbar>
+    
+<div class="container">
+    <h2>ENCUESTA</h2>
+</div>    
+
+<div class="container">
+    <h3>SOBRE VOS</h3>
+</div>    
+
+<div [formGroup]="form">
+
+
+    <div class="container" >
+        <mat-form-field appearance="fill" class="form-encuesta">
+            <mat-label>Nombre</mat-label>
+            <input matInput  type="text" class="form-control" id="nombre" formControlName="nombre">
+            <mat-error *ngIf="nombre?.hasError('pattern') && (nombre?.touched || nombre?.dirty)">
+                Sólo debe contener letras
+            </mat-error>
+            <mat-error *ngIf="nombre?.hasError('required') && (nombre?.touched || nombre?.dirty)">
+                Campo requerido
+            </mat-error>
+        </mat-form-field>    
+
+        <mat-form-field appearance="fill" class="form-encuesta">
+            <mat-label>Apellido</mat-label>
+            <input matInput  type="text" class="form-control" id="apellido" formControlName="apellido">
+            <mat-error *ngIf="apellido?.hasError('pattern')">
+                Sólo debe contener letras
+            </mat-error>
+            <mat-error *ngIf="apellido?.hasError('required') && (apellido?.touched || apellido?.dirty)">
+                Campo requerido
+            </mat-error>
+        </mat-form-field>    
+    </div>
+
+    <div class="container">
+        <mat-form-field appearance="fill" class="form-encuesta">
+            <mat-label>Edad</mat-label>
+            <input matInput  type="text" class="form-control" id="edad" formControlName="edad">
+            <mat-error *ngIf="edad?.hasError('min') || edad?.hasError('max')">
+                Debe estar entre 19 y 99.
+            </mat-error>
+            <mat-error *ngIf="edad?.hasError('required') && (edad?.touched || edad?.dirty)">
+                Campo requerido
+            </mat-error>
+        </mat-form-field>    
+
+        <mat-form-field appearance="fill" class="form-encuesta">
+            <mat-label>Telefono</mat-label>
+            <input matInput  type="text" class="form-control" id="telefono" formControlName="telefono">
+            <mat-error *ngIf="telefono?.hasError('pattern') || telefono?.hasError('maxLength')">
+                Sólo debe contener numeros y tener un maximo de 10 caracteres.
+            </mat-error>
+            <mat-error *ngIf="telefono?.hasError('required') && (telefono?.touched || telefono?.dirty)">
+                Campo requerido
+            </mat-error>
+        </mat-form-field>    
+    </div>
+    
+    <div class="container">
+        <h3>SOBRE LOS JUEGOS</h3>
+    </div>    
+    
+    <div class="container-encuesta">
+        <mat-label class="label-encuesta">¿Cuál fue tu Juego Favorito?</mat-label>
+        <mat-form-field appearance="fill" class="form-encuesta" >
+            <mat-select id="juegoFavorito" formControlName="juegoFavorito">
+                @for (juego of juegosLista; track juego) {
+                    <mat-option [value]="juego">{{juego}}</mat-option>
+                }
+            </mat-select>
+            <mat-error *ngIf="juegoFavorito?.hasError('required') && (juegoFavorito?.touched || juegoFavorito?.dirty)">
+                Campo requerido
+            </mat-error>
+        </mat-form-field>
+    </div>
+    
+    <div class="container-encuesta">
+        <mat-label class="label-encuesta">¿Cuánto te gustó?</mat-label>
+        <mat-slider style="width: 200px;" formControlName="nivelGusto" min="0" max="100" step="5">
+            <input matSliderThumb>
+        </mat-slider>
+        <mat-error *ngIf="nivelGusto?.hasError('required') && (nivelGusto?.touched || nivelGusto?.dirty)">
+            Campo requerido
+        </mat-error>
+    </div>
+    
+    
+    <div class="container-encuesta">
+        <mat-label class="label-encuesta">¿Qué dirias que tuvo de positivo?</mat-label>
+        <section >
+            <mat-button-toggle-group name="caracteristicas" aria-label="caracteristicas" id="caracteristicasJuego" formControlName="caracteristicasJuego" multiple >
+                @for (caracteristica of caracteristicasLista; track caracteristica) {
+                    <mat-button-toggle [value]="caracteristica">{{caracteristica}}</mat-button-toggle>
+                }
+            </mat-button-toggle-group>
+            <mat-error *ngIf="caracteristicasJuego?.hasError('required') && (caracteristicasJuego?.touched || caracteristicasJuego?.dirty)">
+                Campo requerido
+            </mat-error>
+        </section>
+    </div>
+    
+    <div class="container-encuesta">
+        <button mat-flat-button color="primary" (click)="enviarForm()" class="boton">
+            <span class="material-symbols-outlined">send</span>
+            ENVIAR
+        </button>
+    </div>
+</div>
+
+    

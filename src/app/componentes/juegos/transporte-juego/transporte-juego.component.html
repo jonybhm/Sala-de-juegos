@@ -32,7 +32,9 @@
             <thead>
                 <tr>
                     <th>
-                    PARADAS: {{paradasMaximasMinimas}}
+                        <span [ngClass]="{'vacio': paradasSesion<paradasMaximasMinimas || paradasSesion>paradasMaximasMinimas,'completo': paradasSesion===paradasMaximasMinimas}">
+                            PARADAS: {{paradasSesion}}/{{paradasMaximasMinimas}}
+                        </span>
                 </th>
                 <!-- Depositos -->
                 <th>
@@ -40,33 +42,52 @@
                         <p class="deposito-1">
                             Depósito 1
                         </p>
-                        <span [ngClass]="{'completo': depositos.get('1')?.[0]==depositos.get('1')?.[1]}">
+                        <span [ngClass]="{'completo': depositos.get('1')?.[0]==depositos.get('1')?.[1],'vacio': depositos.get('1')?.[0]==0}">
                             [{{depositos.get('1')?.[0]}}/{{depositos.get('1')?.[1]}}]
                         </span>
                                                     
-                        <img src="{{depositos.get('1')?.[3]}}" alt="Estantería 1A" >
-                    </div>
+                        <div style="position: relative;">
+                            <img src="{{depositos.get('1')?.[3]}}" alt="Estantería 1A" >
+                            <ng-container  *ngIf="depositos.get('1')?.[0]==depositos.get('1')?.[1]" >
+                                <span class="texto-superpuesto">
+                                    [COMPLETO]
+                                </span>
+                            </ng-container >
+                        </div>                     </div>
                 </th>
                 <th>
                     <div class="containter-celda">
                         <p class="deposito-2">
                             Depósito 2
                         </p>
-                        <span [ngClass]="{'completo': depositos.get('2')?.[0]==depositos.get('2')?.[1]}">
+                        <span [ngClass]="{'completo': depositos.get('2')?.[0]==depositos.get('2')?.[1],'vacio': depositos.get('2')?.[0]==0}">
                             [{{depositos.get('2')?.[0]}}/{{depositos.get('2')?.[1]}}]
                         </span>
-                        <img src="{{depositos.get('2')?.[3]}}" alt="Estantería 1A" >
-                    </div>
+                        <div style="position: relative;">
+                            <img src="{{depositos.get('2')?.[3]}}" alt="Estantería 1A" >
+                            <ng-container  *ngIf="depositos.get('2')?.[0]==depositos.get('2')?.[1]" >
+                                <span class="texto-superpuesto">
+                                    [COMPLETO]
+                                </span>
+                            </ng-container >
+                        </div>                     </div>
                 </th>
                 <th>
                     <div class="containter-celda">
                         <p class="deposito-3">
                             Depósito 3
                         </p>                             
-                        <span [ngClass]="{'completo': depositos.get('3')?.[0]==depositos.get('3')?.[1]}">
+                        <span [ngClass]="{'completo': depositos.get('3')?.[0]==depositos.get('3')?.[1],'vacio': depositos.get('3')?.[0]==0}">
                             [{{depositos.get('3')?.[0]}}/{{depositos.get('3')?.[1]}}]
                         </span>                       
-                        <img src="{{depositos.get('3')?.[3]}}" alt="Estantería 1A" >
+                        <div style="position: relative;">
+                            <img src="{{depositos.get('3')?.[3]}}" alt="Estantería 1A" >
+                            <ng-container  *ngIf="depositos.get('3')?.[0]==depositos.get('3')?.[1]" >
+                                <span class="texto-superpuesto">
+                                    [COMPLETO]
+                                </span>
+                            </ng-container >
+                        </div>    
                     </div>
                 </th>
             </tr>
@@ -78,7 +99,7 @@
                         <p class="fabrica-A">
                             Fábrica A
                         </p>                          
-                        <span [ngClass]="{'vacio': fabricas.get('A')?.[0]==0}">
+                        <span [ngClass]="{'vacio': fabricas.get('A')?.[0]==0,'completo': fabricas.get('A')?.[0]==fabricas.get('A')?.[1]}">
                             [{{fabricas.get('A')?.[0]}}/{{fabricas.get('A')?.[1]}}]
                         </span>                          
                         <img src="{{fabricas.get('A')?.[3]}}" alt="Estantería 1A" >
@@ -93,8 +114,14 @@
                         <span [ngClass]="{'vacio': estanterias.get('1A')?.[0]==0,'completo': depositos.get('1')?.[0]==depositos.get('1')?.[1] }">
                             [{{estanterias.get('1A')?.[0]}} Cajas]
                         </span>
-                        <img src="{{estanterias.get('1A')?.[3]}}" alt="Estantería 1A" >
-                        <span class="fabrica-A">
+                        <div style="position: relative;">
+                            <img src="{{estanterias.get('1A')?.[3]}}" alt="Estantería 1A" >
+                            <ng-container  *ngIf="depositos.get('1')?.[0]==depositos.get('1')?.[1] && estanterias.get('1A')?.[0]!=0" >
+                                <span class="texto-superpuesto">
+                                    [PARADA]
+                                </span>
+                            </ng-container >
+                        </div>                        <span class="fabrica-A">
                             ${{estanterias.get('1A')?.[1]}} x Caja
                         </span>
                     </div>
@@ -112,8 +139,14 @@
                         <span [ngClass]="{'vacio': estanterias.get('2A')?.[0]==0,'completo': depositos.get('2')?.[0]==depositos.get('2')?.[1]}">
                             [{{estanterias.get('2A')?.[0]}} Cajas]
                         </span>
-                        <img src="{{estanterias.get('2A')?.[3]}}" alt="Estantería 2A" >
-                        <span class="fabrica-A">
+                        <div style="position: relative;">
+                            <img src="{{estanterias.get('2A')?.[3]}}" alt="Estantería 2A" >
+                            <ng-container  *ngIf="depositos.get('2')?.[0]==depositos.get('2')?.[1] && estanterias.get('2A')?.[0]!=0" >
+                                <span class="texto-superpuesto">
+                                    [PARADA]
+                                </span>
+                            </ng-container >
+                        </div>                        <span class="fabrica-A">
                             ${{estanterias.get('2A')?.[1]}} x Caja
                         </span>
                     </div>
@@ -131,8 +164,14 @@
                         <span [ngClass]="{'vacio': estanterias.get('3A')?.[0]==0,'completo': depositos.get('3')?.[0]==depositos.get('3')?.[1]}">
                             [{{estanterias.get('3A')?.[0]}} Cajas]
                         </span>
-                        <img src="{{estanterias.get('3A')?.[3]}}" alt="Estantería 3A" >
-                        <span class="fabrica-A">
+                        <div style="position: relative;">
+                            <img src="{{estanterias.get('3A')?.[3]}}" alt="Estantería 3A" >
+                            <ng-container  *ngIf="depositos.get('3')?.[0]==depositos.get('3')?.[1] && estanterias.get('3A')?.[0]!=0" >
+                                <span class="texto-superpuesto">
+                                    [PARADA]
+                                </span>
+                            </ng-container >
+                        </div>                        <span class="fabrica-A">
                             ${{estanterias.get('3A')?.[1]}} x Caja
                         </span>
                     </div>
@@ -150,7 +189,7 @@
                         <p class="fabrica-B">
                             Fábrica B
                         </p>                                                   
-                        <span [ngClass]="{'vacio': fabricas.get('B')?.[0]==0}">
+                        <span [ngClass]="{'vacio': fabricas.get('B')?.[0]==0,'completo': fabricas.get('B')?.[0]==fabricas.get('B')?.[1]}">
                             [{{fabricas.get('B')?.[0]}}/{{fabricas.get('B')?.[1]}}]
                         </span> 
                         <img src="{{fabricas.get('B')?.[3]}}" alt="Estantería 1A" >
@@ -165,8 +204,14 @@
                         <span [ngClass]="{'vacio': estanterias.get('1B')?.[0]==0,'completo': depositos.get('1')?.[0]==depositos.get('1')?.[1]}">
                             [{{estanterias.get('1B')?.[0]}} Cajas]
                         </span>
-                        <img src="{{estanterias.get('1B')?.[3]}}" alt="Estantería 1B" >
-                        <span class="fabrica-B">
+                        <div style="position: relative;">
+                            <img src="{{estanterias.get('1B')?.[3]}}" alt="Estantería 1B" >
+                            <ng-container  *ngIf="depositos.get('1')?.[0]==depositos.get('1')?.[1] && estanterias.get('1B')?.[0]!=0" >
+                                <span class="texto-superpuesto">
+                                    [PARADA]
+                                </span>
+                            </ng-container >
+                        </div>                        <span class="fabrica-B">
                             ${{estanterias.get('1B')?.[1]}} x Caja
                         </span>
                     </div>
@@ -184,7 +229,14 @@
                         <span [ngClass]="{'vacio': estanterias.get('2B')?.[0]==0,'completo': depositos.get('2')?.[0]==depositos.get('2')?.[1]}">
                             [{{estanterias.get('2B')?.[0]}} Cajas]
                         </span>
-                        <img src="{{estanterias.get('2B')?.[3]}}" alt="Estantería 2B" >
+                        <div style="position: relative;">
+                            <img src="{{estanterias.get('2B')?.[3]}}" alt="Estantería 2B" >
+                            <ng-container  *ngIf="depositos.get('2')?.[0]==depositos.get('2')?.[1] && estanterias.get('2B')?.[0]!=0" >
+                                <span class="texto-superpuesto">
+                                    [PARADA]
+                                </span>
+                            </ng-container >
+                        </div>
                         <span class="fabrica-B">
                             ${{estanterias.get('2B')?.[1]}} x Caja
                         </span>
@@ -203,7 +255,14 @@
                         <span [ngClass]="{'vacio': estanterias.get('3B')?.[0]==0,'completo': depositos.get('3')?.[0]==depositos.get('3')?.[1]}">
                             [{{estanterias.get('3B')?.[0]}} Cajas]
                         </span>
-                        <img src="{{estanterias.get('3B')?.[3]}}" alt="Estantería 3B" >
+                        <div style="position: relative;">
+                            <img src="{{estanterias.get('3B')?.[3]}}" alt="Estantería 3B" >
+                            <ng-container  *ngIf="depositos.get('3')?.[0]==depositos.get('3')?.[1] && estanterias.get('3B')?.[0]!=0" >
+                                <span class="texto-superpuesto">
+                                    [PARADA]
+                                </span>
+                            </ng-container >
+                        </div>
                         <span class="fabrica-B">
                             ${{estanterias.get('3B')?.[1]}} x Caja
                         </span>
@@ -255,14 +314,12 @@
         <ng-container *ngIf="juegoTerminado">
             
             <mat-card appearance="outlined" class="example-card">    
-                <p>VALOR OPTIMO: {{costoOptimo}}</p>
+                <p>TU COSTO: ${{costoJugada}}</p>
             </mat-card>
 
-            
             <mat-card appearance="outlined" class="example-card">    
-                <p>TU VALOR: {{costoJugada}}</p>
+                <p>MEJOR COSTO: ${{costoOptimo}}</p>
             </mat-card>
-
             
             <mat-card appearance="outlined" class="example-card">    
                 <p>PUNTAJE: {{puntajeActual}}</p>

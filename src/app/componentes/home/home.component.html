@@ -27,10 +27,15 @@
     </button>
     
 </mat-toolbar>
-    
+
 <div class="container">
     <h2>JUEGOS DISPONIBLES</h2>
 </div>        
+
+<button mat-flat-button routerLink="/encuesta" routerLinkActive="active-route" class="boton">
+    <span class="material-symbols-outlined">quiz</span>
+    ENCUESTA
+</button>
 
 <div class="container">
     <mat-card class="carta-home" appearance="outlined" routerLink="/juegos/ahorcado" routerLinkActive="active-route">
@@ -41,7 +46,8 @@
             </button>
         </mat-card-header>
         <mat-card-content>
-                <p>Juego de Ahorcado</p>        
+            <p>Clásico juego de ahorcado. </p>
+            <p>Adivinar la palabra utilizando el teclado en pantalla antes de que se termine el dibujo del ahorcado.</p>        
         </mat-card-content>
     </mat-card>
     
@@ -53,7 +59,8 @@
             </button>
         </mat-card-header>
         <mat-card-content>
-                <p>Juego de Preguntados</p>        
+                <p>Juego de Trivia con Imágenes.</p>
+                <p>Contestar preguntas de varias categorias en base a las imágenes mostradas.</p>        
         </mat-card-content>
     </mat-card>
     
@@ -67,7 +74,8 @@
             </button>
         </mat-card-header>
         <mat-card-content>
-            <p>Juego de Mayor o Menor</p>        
+            <p>Juego con cartas de poker.</p>
+            <p>Adivinar si la siguiente carta en un mazo es mayor o menor.</p>        
         </mat-card-content>
     </mat-card>
 
@@ -80,7 +88,8 @@
             </button>
         </mat-card-header>
         <mat-card-content>
-            <p>Juego de Memoria</p>        
+            <p>Juego de Transporte de Cajas.</p>
+            <p>Se deben repartir cajas desde las fábricas hasta los depositos tratando de obtner el menor costo posible.</p>        
         </mat-card-content>
     </mat-card>
     

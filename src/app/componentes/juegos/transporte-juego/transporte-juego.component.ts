@@ -1,6 +1,7 @@
 import { Component, OnInit , OnDestroy} from '@angular/core';
 import { LogoutService } from '../../../servicios/logout.service';
 import { Auth } from '@angular/fire/auth';
+import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.service';
 
 @Component({
   selector: 'app-transporte-juego',
@@ -15,6 +16,7 @@ export class TransporteJuegoComponent {
 
   estanterias: Map<string, [number, number, boolean, string]> = new Map();
 
+  paradasSesion:number = 0;
   paradasMaximasMinimas:number = 4;
   juegoTerminado:boolean = false;
   puntajeActual:number = 0;
@@ -32,6 +34,8 @@ export class TransporteJuegoComponent {
   constructor(
     public auth: Auth,
     public logout:LogoutService,
+    public registroPuntaje:RegistroPuntajeService
+
   )
   {}
 
@@ -46,6 +50,7 @@ export class TransporteJuegoComponent {
 
   iniciarJuego()
   {
+    this.paradasSesion = 0;
     this.costoOptimo = 900;
     this.costoCotaSuperior = 1300;
     this.costoJugada = 0;
@@ -80,6 +85,7 @@ export class TransporteJuegoComponent {
   {
     // this.verificarEstadoDepositoYEstanteria(depositoNumero);//verificar si estan llenos los depositos
     // this.verificarEstadoFabrica(fabricaLetra);//verificar si estan llenas las fabricas
+    
     this.errorJugador = false;
     let cantidadDeCajasAMover:number = 10;
     let deposito = this.depositos.get(`${depositoNumero}`);
@@ -89,6 +95,8 @@ export class TransporteJuegoComponent {
     //comprobar que no sean undefinded)
     if( fabrica && deposito && estanteria)
     {
+      
+
       switch(tipoDeMovimiento)
       {
         case "agregar":
@@ -114,33 +122,31 @@ export class TransporteJuegoComponent {
           }
           break;
       }
+      
     }
+
+    this.calcularCantidadDeParadas();
   }
 
 
   enviarIntento()
   {
-    let paradasSesion = 0;
 
-    this.estanterias.forEach(estanteria => {
-      if(estanteria[0]!=0)
-      {        
-        paradasSesion += 1;
-      }
-      
-      console.log(paradasSesion);
-    });
+    this.calcularCantidadDeParadas();
+    
 
-    if(paradasSesion == this.paradasMaximasMinimas)
+    if(this.paradasSesion == this.paradasMaximasMinimas && this.fabricas.get('A')?.[0] === 0 && this.fabricas.get('B')?.[0] === 0)
     {
       this.calcularPuntaje();
+      this.registroPuntaje.registrarPuntajeEnDB(this.puntajeActual,"Transporte");
+
     }
     else if(this.fabricas.get('A')?.[0] != 0 && this.fabricas.get('B')?.[0] != 0)
     {
       this.errorJugador = true;
       this.mensajeErrorJugador = `QUEDAN CAJAS POR REPARTIR`
     }
-    else
+    else if(this.paradasSesion != this.paradasMaximasMinimas)
     {  
       this.errorJugador = true;
       this.mensajeErrorJugador = `SE DEBEN REALIZAR ${this.paradasMaximasMinimas} PARADAS! NI MÁS NI MENOS!`
@@ -158,15 +164,32 @@ export class TransporteJuegoComponent {
     // cota superior - costo jugada -------------------- X puntos
     // X = (cota superior - costo jugada)*10/(cota superior - costo optimo)
 
-    let diferenciaCostoJugadaCostoCotaSuperior = this.costoCotaSuperior - this.costoJugada; 
-    let diferenciaCostoCotaSuperiorCostoOptimo = this.costoCotaSuperior - this.costoOptimo;
-    this.puntajeActual = Math.round((diferenciaCostoJugadaCostoCotaSuperior*10)/diferenciaCostoCotaSuperiorCostoOptimo);
+    // let diferenciaCostoJugadaCostoCotaSuperior = this.costoCotaSuperior - this.costoJugada; 
+    // let diferenciaCostoCotaSuperiorCostoOptimo = this.costoCotaSuperior - this.costoOptimo;
+
+    let exponente =  (this.costoOptimo - this.costoJugada)/(this.costoCotaSuperior - this.costoOptimo);
+    
+    this.puntajeActual = Math.round(10*(Math.pow(10,exponente)));
     
     if(this.puntajeActual < 10)
     {
       Math.round(this.puntajeActual);
     }
     this.juegoTerminado = true;
+  }
+
+  calcularCantidadDeParadas()
+  {
+    this.paradasSesion = 0;
+
+    this.estanterias.forEach(estanteria => {
+      if(estanteria[0]!=0)
+      {        
+        this.paradasSesion += 1;
+      }
+      
+      console.log(this.paradasSesion);
+    });
   }
 
 }

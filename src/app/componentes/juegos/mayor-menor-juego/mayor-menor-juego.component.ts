@@ -3,6 +3,8 @@ import { CartasService } from '../../../servicios/cartas.service';
 import { Subscription } from 'rxjs';
 import { LogoutService } from '../../../servicios/logout.service';
 import { Auth } from '@angular/fire/auth';
+import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.service';
+
 
 @Component({
   selector: 'app-mayor-menor-juego',
@@ -26,6 +28,8 @@ export class MayorMenorJuegoComponent implements OnDestroy,OnInit{
     public auth: Auth,
     private cartas: CartasService,
     public logout:LogoutService,
+    public registroPuntaje:RegistroPuntajeService
+
   )
   {}
 
@@ -102,6 +106,7 @@ export class MayorMenorJuegoComponent implements OnDestroy,OnInit{
       this.puntajeFinal = this.puntajeActual;
       this.puntajeActual = 0;
       this.juegoPerdido = true;
+      this.registroPuntaje.registrarPuntajeEnDB(this.puntajeFinal,"Mayor o Menor");
       this.sub.unsubscribe();
     }
   }

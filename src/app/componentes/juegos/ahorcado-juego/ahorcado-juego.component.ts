@@ -4,6 +4,7 @@ import { Subscribable, Subscription } from 'rxjs';
 import { LogoutService } from '../../../servicios/logout.service';
 import { Auth } from '@angular/fire/auth';
 import { PalabrasRandomService } from '../../../servicios/palabras-random.service';
+import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.service';
 
 @Component({
   selector: 'app-ahorcado-juego',
@@ -29,6 +30,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
     public auth: Auth,
     private palabras: PalabrasRandomService,
     public logout:LogoutService,
+    public registroPuntaje:RegistroPuntajeService
   )
   {}
 
@@ -104,6 +106,7 @@ export class AhorcadoJuegoComponent implements OnInit,OnDestroy {
     if(this.intentos === 0)
     {
       this.juegoPerdido = true;
+      this.registroPuntaje.registrarPuntajeEnDB(this.puntajeActual,"Ahorcado");
     }
   }
 

@@ -142,6 +142,35 @@ html {
   margin-bottom: 10px;      
 }
 
+.form-encuesta {
+  width: 400px;              
+  height: 70px;      
+  font-size: 18px;
+  margin: 10px;      
+}
+.slider-encuesta {
+  width: 400px;      
+}
+
+.container-encuesta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  padding: 5px;
+  position: relative;
+  width: 100%;
+}
+
+.label-encuesta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  padding: 10px;
+  position: relative;
+}
+
 .foto {
   height: 150px;
   width: 150px;
@@ -167,8 +196,14 @@ html {
 }
 
 .carta-home{
+  width: 230px;
+  height: 313px;
   margin: 10px;
   padding: 10px;
+  position: absolute;
+  top: 100%; 
+  left: 0%; 
+  text-align: left;
   cursor: pointer;
 }
 
@@ -322,11 +357,12 @@ table {
 }
 
 .completo{
-  color: red;
+  color: rgb(156, 98, 189);
+  font-weight: bold;
 }
 
 .vacio{
-  color: green;
+  color: rgb(245, 178, 134);
 }
 
 .explicacion-juego{
@@ -369,6 +405,25 @@ table {
   height: 130px;
 }
 
+.texto-superpuesto {
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  color: rgb(156, 98, 189);
+  font-weight: bold;
+  font-size: 0.75rem; 
+  background-color: rgba(255, 255, 255, 0.7); 
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.chat-boton{
+  position: absolute;
+  top: 14%; 
+  left: 6%; 
+  transform: translate(-50%, -50%);
+}
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;

@@ -18,11 +18,10 @@
 
 
 <div class="container">
-    <mat-form-field appearance="fill" class="form">
+    <mat-form-field appearance="fill" class="form" style="position: relative;">
         <input matInput  type="text" placeholder="Enviar Mensaje..." [(ngModel)]="chat" (keydown.enter)="registrarChatEnDB()" >
-        <span></span>
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="registrarChatEnDB()">
+    <button mat-fab color="primary" (click)="registrarChatEnDB()" class="chat-boton">
         <span class="material-symbols-outlined">send</span>
     </button>
 </div>

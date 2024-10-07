@@ -5,6 +5,8 @@ import { LogoutService } from '../../../servicios/logout.service';
 import { Auth } from '@angular/fire/auth';
 import { TriviaService } from '../../../servicios/trivia.service';
 import randomArrayElement from '@smakss/random-array-element';
+import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.service';
+
 
 @Component({
   selector: 'app-preguntados-juego',
@@ -35,6 +37,8 @@ export class PreguntadosJuegoComponent implements OnDestroy,OnInit{
     public auth: Auth,
     private trivia: TriviaService,
     public logout:LogoutService,
+    public registroPuntaje:RegistroPuntajeService
+
   )
   {}
 
@@ -94,6 +98,8 @@ export class PreguntadosJuegoComponent implements OnDestroy,OnInit{
       else
       {
         this.juegoPerdido=true;
+        this.registroPuntaje.registrarPuntajeEnDB(this.puntajeActual,"Preguntados");
+
       }        
 
       this.opcionSeleccionada = null;
