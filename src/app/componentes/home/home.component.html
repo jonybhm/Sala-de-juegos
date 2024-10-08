@@ -21,10 +21,23 @@
         <span class="material-symbols-outlined">chat</span>
         CHAT
     </button>
-    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
-        <span class="material-symbols-outlined">logout</span>
-        CERRAR SESIÓN
+    <button mat-flat-button routerLink="/encuesta" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">quiz</span>
+        ENCUESTA
     </button>
+    <ng-container *ngIf="auth.currentUser">        
+        <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+            <span class="material-symbols-outlined">logout</span>
+            CERRAR SESIÓN
+        </button>
+    </ng-container>
+    <ng-container *ngIf="!auth.currentUser">        
+        <button mat-flat-button color="primary" routerLink="/login" routerLinkActive="active-route" class="boton">
+            <span class="material-symbols-outlined">login</span>
+            INICIAR SESION
+        </button>
+    </ng-container>
+ 
     
 </mat-toolbar>
 
@@ -32,10 +45,7 @@
     <h2>JUEGOS DISPONIBLES</h2>
 </div>        
 
-<button mat-flat-button routerLink="/encuesta" routerLinkActive="active-route" class="boton">
-    <span class="material-symbols-outlined">quiz</span>
-    ENCUESTA
-</button>
+
 
 <div class="container">
     <mat-card class="carta-home" appearance="outlined" routerLink="/juegos/ahorcado" routerLinkActive="active-route">

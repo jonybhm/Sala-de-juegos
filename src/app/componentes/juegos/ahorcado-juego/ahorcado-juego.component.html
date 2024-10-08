@@ -16,10 +16,18 @@
         <span class="material-symbols-outlined">joystick</span>
         JUEGOS
     </button>
-    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
-        <span class="material-symbols-outlined">logout</span>
-        CERRAR SESIÓN
-    </button>
+    <ng-container *ngIf="auth.currentUser">        
+        <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+            <span class="material-symbols-outlined">logout</span>
+            CERRAR SESIÓN
+        </button>
+    </ng-container>
+    <ng-container *ngIf="!auth.currentUser">        
+        <button mat-flat-button color="primary" routerLink="/login" routerLinkActive="active-route" class="boton">
+            <span class="material-symbols-outlined">login</span>
+            INICIAR SESION
+        </button>
+    </ng-container>
     
 </mat-toolbar>
 <div class="container">

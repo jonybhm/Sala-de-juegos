@@ -18,10 +18,18 @@
         QUIEN SOY
     </button>
     
-    <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
-        <span class="material-symbols-outlined">logout</span>
-        CERRAR SESIÓN
-    </button>
+    <ng-container *ngIf="auth.currentUser">        
+        <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+            <span class="material-symbols-outlined">logout</span>
+            CERRAR SESIÓN
+        </button>
+    </ng-container>
+    <ng-container *ngIf="!auth.currentUser">        
+        <button mat-flat-button color="primary" routerLink="/login" routerLinkActive="active-route" class="boton">
+            <span class="material-symbols-outlined">login</span>
+            INICIAR SESION
+        </button>
+    </ng-container>
     
 </mat-toolbar>
     
@@ -104,9 +112,16 @@
     
     <div class="container-encuesta">
         <mat-label class="label-encuesta">¿Cuánto te gustó?</mat-label>
-        <mat-slider style="width: 200px;" formControlName="nivelGusto" min="0" max="100" step="5">
-            <input matSliderThumb>
-        </mat-slider>
+
+        <mat-radio-group aria-label="Select an option" formControlName="nivelGusto">
+            <mat-radio-button value="0">Nada</mat-radio-button>
+            <mat-radio-button value="1">Un poco</mat-radio-button>
+            <mat-radio-button value="2">Estuvo bien</mat-radio-button>
+            <mat-radio-button value="3">Bastante</mat-radio-button>
+            <mat-radio-button value="4">Estuvo increible</mat-radio-button>
+            <mat-radio-button value="5">GOTY</mat-radio-button>
+        </mat-radio-group>
+          
         <mat-error *ngIf="nivelGusto?.hasError('required') && (nivelGusto?.touched || nivelGusto?.dirty)">
             Campo requerido
         </mat-error>
@@ -133,6 +148,5 @@
             ENVIAR
         </button>
     </div>
-</div>
 
-    
+</div>

@@ -5,12 +5,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {Auth} from '@angular/fire/auth'
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-quien-soy',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule,MatCardModule],
+  imports: [MatToolbarModule, MatButtonModule,MatCardModule,CommonModule,FormsModule],
   templateUrl: './quien-soy.component.html',
   styleUrl: './quien-soy.component.scss'
 })

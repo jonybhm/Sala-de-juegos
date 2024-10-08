@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
@@ -21,7 +21,7 @@ import { ErrorService } from '../../servicios/error.service';
 
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule,
+  imports: [FormsModule,CommonModule,RouterLink,RouterLinkActive,
     MatSlideToggle,MatButtonModule,MatAutocompleteModule,
     MatInputModule, MatToolbarModule,MatButtonModule,
     MatIconButton, MatIconModule, MatFormFieldModule,

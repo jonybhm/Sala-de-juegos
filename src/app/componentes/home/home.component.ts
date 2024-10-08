@@ -35,7 +35,7 @@ import {MatMenuModule} from '@angular/material/menu';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
+  
   constructor(
     public auth: Auth,
     private router:Router, 

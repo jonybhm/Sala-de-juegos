@@ -63,35 +63,35 @@ RegistrarUsuariosNuevos()
         this.error.Toast.fire(
         {
           title:"Email invalido",
-          icon:'success'
+          icon:'error'
         })  
       break;
-      case "auth/invalid-email-already-in-use":
+      case "auth/email-already-in-use":
         this.error.Toast.fire(
         {
           title:"Email ya se encuentra en uso",
-          icon:'success'
+          icon:'error'
         })  
       break;
       case "auth/invalid-password":
         this.error.Toast.fire(
         {
           title:"Contraseña invalida",
-          icon:'success'
+          icon:'error'
         })  
       break;
       case "auth/weak-password":
         this.error.Toast.fire(
         {
           title:"Contraseña muy débil",
-          icon:'success'
+          icon:'error'
         })  
       break;        
       default:
         this.error.Toast.fire(
         {
-          title:'Usuario creado con éxito',
-          icon:'success'
+          title:'Error en el registro',
+          icon:'error'
         })  
       break;
     }

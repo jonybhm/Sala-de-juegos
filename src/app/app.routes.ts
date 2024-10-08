@@ -9,14 +9,16 @@ import { QuienSoyComponent } from './componentes/quien-soy/quien-soy.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { JuegosModule } from './componentes/juegos/juegos/juegos.module';
 import { EncuestaComponent } from './componentes/encuesta/encuesta.component';
+import { authGuard } from './guards/auth.guard';
+
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'login', pathMatch: "full"},
+    {path: '', redirectTo: 'home', pathMatch: "full"},
     {path: 'login', component: LoginComponent},
     {path: 'registro', component: RegistroComponent},
     {path: 'home', component: HomeComponent},
     {path: 'quiensoy', component: QuienSoyComponent},
-    {path: 'encuesta', component: EncuestaComponent},
+    {path: 'encuesta', component: EncuestaComponent, canActivate: [authGuard]},
     {path: 'juegos', loadChildren:()=>
         import('./componentes/juegos/juegos/juegos.module').then((m)=>m.JuegosModule)
     },
