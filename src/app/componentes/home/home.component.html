@@ -25,6 +25,10 @@
         <span class="material-symbols-outlined">quiz</span>
         ENCUESTA
     </button>
+    <button mat-flat-button routerLink="/puntajes" routerLinkActive="active-route" class="boton">
+        <span class="material-symbols-outlined">format_list_bulleted</span>
+        PUNTAJES
+    </button>
     <ng-container *ngIf="auth.currentUser">        
         <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
             <span class="material-symbols-outlined">logout</span>
@@ -70,7 +74,7 @@
         </mat-card-header>
         <mat-card-content>
                 <p>Juego de Trivia con Imágenes.</p>
-                <p>Contestar preguntas de varias categorias en base a las imágenes mostradas.</p>        
+                <p>Identificar imágenes de monstruos de DnD 5e y seleccionar la respuesta correcta.</p>        
         </mat-card-content>
     </mat-card>
     

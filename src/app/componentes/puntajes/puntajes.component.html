@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<mat-toolbar>    
+    <img src="../../assets/maquina-de-arcade.png" alt="logo" class="logoimg">    
+    <span>
+        SALA DE JUEGOS
+        <span class="material-symbols-outlined">joystick</span>        
+    </span>
+    
+    <span class="spacer"></span>
+    
+    <p>{{auth.currentUser?.email}}</p>    
+    <ng-container *ngIf="auth.currentUser">        
+      <button mat-flat-button color="primary" (click)="logout.CerrarSesion('/login')" class="boton">
+          <span class="material-symbols-outlined">logout</span>
+          CERRAR SESIÓN
+      </button>
+  </ng-container>
+  <ng-container *ngIf="!auth.currentUser">        
+      <button mat-flat-button color="primary" routerLink="/login" routerLinkActive="active-route" class="boton">
+          <span class="material-symbols-outlined">login</span>
+          INICIAR SESION
+      </button>
+  </ng-container>  
+</mat-toolbar>
+
+<div class="container">
+  <h2>Puntajes</h2> 
+</div>
+
+
+<ng-container *ngFor="let juego of listaJuegos; let i = index" >
+    
+    <div class="contenedor-puntaje">
+        <mat-card class="carta" appearance="outlined" class="carta-puntaje">
+            <mat-card-header>
+                <mat-card-title-group>
+                    <mat-card-title>
+                        <span class="material-symbols-outlined">joystick</span>
+                        {{juego}}
+                    </mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>                
+                </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+                <ng-container *ngFor="let puntaje of puntajesCollection; let i = index">
+                    <ng-container *ngIf="puntaje.Juego === juego">
+                        Fecha: {{(puntaje.Fecha.seconds * 1000) | date:'dd/MM/yy hh:mm'}}
+                        | Usuario: {{obtenerNombreUsuario(puntaje.Usuario)}}
+                        | Puntaje: {{puntaje.Puntaje}}
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <ng-container *ngIf="juego === 'General'">
+                        Fecha: {{(puntaje.Fecha.seconds * 1000) | date:'dd/MM/yy hh:mm'}}
+                        | Usuario: {{obtenerNombreUsuario(puntaje.Usuario)}}
+                        | Puntaje: {{puntaje.Puntaje}}
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                </ng-container>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</ng-container>

@@ -11,19 +11,29 @@ export class TriviaService {
   
   http = inject(HttpClient);
 
-  generarPreguntaNueva(categoria:string, hoja:string)
+  // generarPreguntaNueva(categoria:string, hoja:string)
+  // {
+
+  //   console.log(hoja);
+
+  //   const headers = new HttpHeaders({
+  //     'Authorization': ` $2b$12$8eAvllv7QYEaRSKbASgCge4PX9Px8YEZTh7qM1EgYgkTBO12YsbVu` 
+  //   });
+
+  //   return this.http.request('GET',`https://api.quiz-contest.xyz/questions?limit=10&page=${hoja}&category=${categoria}&format=multiple`,{headers});
+  // }
+
+  generarListaMonstruos()
   {
-
-    console.log(hoja);
-
-    const headers = new HttpHeaders({
-      'Authorization': ` $2b$12$8eAvllv7QYEaRSKbASgCge4PX9Px8YEZTh7qM1EgYgkTBO12YsbVu` 
-    });
-
-    return this.http.request('GET',`https://api.quiz-contest.xyz/questions?limit=10&page=${hoja}&category=${categoria}&format=multiple`,{headers});
+    return this.http.request('GET',`https://www.dnd5eapi.co/api/monsters/`);
   }
 
-  
+  obtenerMonstruoPorUrl(monstuoUrl:string)
+  {
+    return this.http.request('GET',`https://www.dnd5eapi.co${monstuoUrl}`);
+  }
+
+
   
    
 }

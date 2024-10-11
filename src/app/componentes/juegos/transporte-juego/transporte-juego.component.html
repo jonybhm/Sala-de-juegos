@@ -302,6 +302,11 @@
                     <p class="explicacion-juego">{{explicacionJuego3}}</p>
                     <p class="explicacion-juego">{{explicacionJuego4}}</p>
                 </mat-card>   
+
+                <button mat-flat-button (click)="iniciarJuego()" class="boton">
+                    <span class="material-symbols-outlined" >restart_alt</span>
+                    NUEVO JUEGO
+                </button>
             </ng-container>
 
         </ng-container>
@@ -330,7 +335,7 @@
             </mat-card>
             
             <mat-card appearance="outlined" class="example-card">    
-                <p>PUNTAJE: {{puntajeActual}}</p>
+                <p>PUNTAJE: {{puntajeActual}}/10</p>
             </mat-card>
             
             <button mat-flat-button (click)="iniciarJuego()" class="boton">

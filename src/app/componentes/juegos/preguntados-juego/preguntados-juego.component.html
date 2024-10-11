@@ -36,51 +36,17 @@
 
 <div class="containter">
     <div class="containter-juegos">    
-        
-        <ng-container *ngIf="!categoriarSeleccionada">
 
-            <mat-card appearance="outlined" class="preguntados-card">    
-                <p> SELECCIONE UNA CATEGORIA </p>
-                <button mat-stroked-button (click)="seleccionarCategoria('geography')" class="boton">
-                    <span class="material-symbols-outlined" >globe</span>
-                    GEOGRAFIA
-                </button>
-                <button mat-stroked-button (click)="seleccionarCategoria('arts%26literature')" class="boton">
-                    <span class="material-symbols-outlined" >brush</span>
-                    ARTE Y LITERATURA
-                </button>
-                <button mat-stroked-button (click)="seleccionarCategoria('entertainment')" class="boton">
-                    <span class="material-symbols-outlined" >comedy_mask</span>
-                    ENTRETENIMIENTO
-                </button>
-                <button mat-stroked-button (click)="seleccionarCategoria('science%26nature')" class="boton">
-                    <span class="material-symbols-outlined" >experiment</span>
-                    CIENCIA Y NATURALEZA
-                </button>
-                <button mat-stroked-button (click)="seleccionarCategoria('sports%26leisure')" class="boton">
-                    <span class="material-symbols-outlined" >sports_and_outdoors</span>
-                    DEPORTE Y OCIO
-                </button>
-                <button mat-stroked-button (click)="seleccionarCategoria('history')" class="boton">
-                    <span class="material-symbols-outlined" >history_edu</span>
-                    HISTORIA
-                </button>
-            </mat-card>
-        
-        </ng-container>
-
-
-        <ng-container *ngIf="categoriarSeleccionada">      
-
-            <ng-container *ngIf="triviaActual">
+            <ng-container *ngIf="monstruosLista">
         
                 <mat-card appearance="outlined" class="preguntados-card">    
-                    <p>PREGUNTA {{preguntaIndex+1}}/{{preguntasPorCateogria}}: {{preguntaTriviaActual}}</p>
+                    <p>PREGUNTA {{preguntaIndex+1}}/{{preguntasPorCateogria}}: ¿Qué monstruo es este?</p>
+                    <img src="https://5e.tools/img/bestiary/tokens/MM/{{respuestaCorrectaActual.name}}.webp" alt="{{respuestaCorrectaActual.name}}">
 
                     <mat-radio-group [(ngModel)]="opcionSeleccionada" class="preguntados-card" aria-label="Select an option" [disabled]="juegoPerdido">
                         <ng-container *ngFor="let char of todasLasRespuestasActuales; let i = index">
                             <span>
-                                <mat-radio-button value="{{todasLasRespuestasActuales[i]}}">{{todasLasRespuestasActuales[i]}}</mat-radio-button>
+                                <mat-radio-button value="{{todasLasRespuestasActuales[i].name}}">{{todasLasRespuestasActuales[i].name}}</mat-radio-button>
                             </span>    
                         </ng-container>
                     </mat-radio-group>
@@ -100,7 +66,7 @@
 
                             <button mat-flat-button (click)="iniciarJuego()" class="boton">
                                 <span class="material-symbols-outlined" >restart_alt</span>
-                                CATEGORIAS
+                                REINICIAR
                             </button>
                     </mat-card>
                 </ng-container>
@@ -113,14 +79,14 @@
                         </mat-card>       
                         <button mat-flat-button (click)="iniciarJuego()" class="boton">
                             <span class="material-symbols-outlined" >restart_alt</span>
-                            CATEGORIAS
+                            REINICIAR
                         </button>
                     </mat-card>
                 </ng-container>
 
             </ng-container>         
 
-        </ng-container>
+
     </div>       
 
 </div>

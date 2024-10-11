@@ -6,6 +6,7 @@ import { Auth } from '@angular/fire/auth';
 import { TriviaService } from '../../../servicios/trivia.service';
 import randomArrayElement from '@smakss/random-array-element';
 import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.service';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -16,11 +17,13 @@ import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.serv
 export class PreguntadosJuegoComponent implements OnDestroy,OnInit{
 
   categoriaActual: string = "";
-  triviaActual: any;
+  monstruosLista: any;
 
   preguntaIndex:number = 0;
-  preguntaTriviaActual: any;
+  preguntaActual: any;
+  
   todasLasRespuestasActuales:any[] = [];
+
   respuestaCorrectaActual: any;
   respuestasIncorrectasActual: any[] = [];
 
@@ -58,23 +61,22 @@ export class PreguntadosJuegoComponent implements OnDestroy,OnInit{
     this.todasLasRespuestasActuales = [];
     this.juegoPerdido = false;
     this.categoriarSeleccionada = false;   
+    this.generarListaMonstruos();
   }
   
-  seleccionarCategoria(categoria:string)
-  {    
-    let hojaNumero = Math.round(this.getRandomArbitrary(1,2));
-    
-    this.sub = this.trivia.generarPreguntaNueva(categoria,hojaNumero.toString()).subscribe(nuevaTrivia => {
-      //Obtener trivia de 10 preguntas segun la categoria seleccionada
-      this.triviaActual = nuevaTrivia;      
+  generarListaMonstruos()
+  {        
+    this.sub = this.trivia.generarListaMonstruos().subscribe(monstruos => {
+      this.monstruosLista = monstruos;        
+      this.barajarPreguntas();      
+    });  
+  }
 
-      this.triviaActual.questions.sort(() => Math.random() - 0.5);
-      this.barajarPreguntas();
+  obtenerMonstruo(urlMonstruo:string)
+  {        
+    this.sub = this.trivia.obtenerMonstruoPorUrl(urlMonstruo).subscribe(monstruo => {
+      this.todasLasRespuestasActuales.push(monstruo);
       
-
-      console.log(this.todasLasRespuestasActuales);
-
-      this.categoriarSeleccionada = true;
     });  
   }
   
@@ -84,7 +86,7 @@ export class PreguntadosJuegoComponent implements OnDestroy,OnInit{
     {
       console.log(this.opcionSeleccionada);
       
-      if(this.opcionSeleccionada == this.respuestaCorrectaActual)
+      if(this.opcionSeleccionada == this.respuestaCorrectaActual.name)
       {
         this.puntajeActual += 1;
       }
@@ -107,24 +109,32 @@ export class PreguntadosJuegoComponent implements OnDestroy,OnInit{
 
   }
 
-  barajarPreguntas()
+ barajarPreguntas()
+ {
+   //Mezclar y obtener preguntas y respuestas correctas e incorrectas      
+  this.monstruosLista.results.sort(() => Math.random() - 0.5);
+  
+  const monstruoObservables = [];
+  for (let i = 1; i < 5; i++) 
   {
-    //Mezclar y obtener preguntas y respuestas correctas e incorrectas      
-    this.preguntaTriviaActual = this.triviaActual.questions[this.preguntaIndex].question;
-    this.respuestaCorrectaActual = this.triviaActual.questions[this.preguntaIndex].correctAnswers;  
-    this.respuestasIncorrectasActual = this.triviaActual.questions[this.preguntaIndex].incorrectAnswers;
-
-    //Agregar valores al array de respuestas y mezclarlas
-    this.respuestasIncorrectasActual.forEach(element => {
-      this.todasLasRespuestasActuales.push(element);        
-    });    
-    this.todasLasRespuestasActuales.push(this.respuestaCorrectaActual);
-    this.todasLasRespuestasActuales.sort(() => Math.random() - 0.5);
-
-    console.log(this.respuestaCorrectaActual);
+    const url = this.monstruosLista.results[i].url;
+    monstruoObservables.push(this.trivia.obtenerMonstruoPorUrl(url));
   }
 
-  getRandomArbitrary(min:number, max:number) {
+  forkJoin(monstruoObservables).subscribe((monstruos) => {
+    this.todasLasRespuestasActuales = monstruos;
+    
+    this.respuestaCorrectaActual = this.todasLasRespuestasActuales[0];
+
+    this.todasLasRespuestasActuales.sort(() => Math.random() - 0.5);
+
+    console.log("Respuesta Correcta:", this.respuestaCorrectaActual);
+    console.log("Todas las Respuestas:", this.todasLasRespuestasActuales);
+  });
+ }
+
+  getRandomArbitrary(min:number, max:number) 
+  {
     return Math.random() * (max - min) + min;
   }
 

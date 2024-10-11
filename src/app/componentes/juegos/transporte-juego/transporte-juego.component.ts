@@ -2,6 +2,7 @@ import { Component, OnInit , OnDestroy} from '@angular/core';
 import { LogoutService } from '../../../servicios/logout.service';
 import { Auth } from '@angular/fire/auth';
 import { RegistroPuntajeService } from '../../../servicios/registro-puntaje.service';
+import { ProgramacionLinealService } from '../../../servicios/programacion-lineal.service';
 
 @Component({
   selector: 'app-transporte-juego',
@@ -16,6 +17,7 @@ export class TransporteJuegoComponent {
 
   estanterias: Map<string, [number, number, boolean, string]> = new Map();
 
+  sumaProducciones!:number;
   paradasSesion:number = 0;
   paradasMaximasMinimas:number = 4;
   juegoTerminado:boolean = false;
@@ -34,8 +36,8 @@ export class TransporteJuegoComponent {
   constructor(
     public auth: Auth,
     public logout:LogoutService,
-    public registroPuntaje:RegistroPuntajeService
-
+    public registroPuntaje:RegistroPuntajeService,
+    public programacionLienal:ProgramacionLinealService
   )
   {}
 
@@ -48,44 +50,55 @@ export class TransporteJuegoComponent {
   }
   
 
-  iniciarJuego()
+  async iniciarJuego()
   {
     this.paradasSesion = 0;
-    this.costoOptimo = 900;
-    this.costoCotaSuperior = 1300;
+    
     this.costoJugada = 0;
     this.puntajeActual = 0;
     this.errorJugador = false;
     this.juegoTerminado = false;
-    //========================DEPOSITOS======================== 
-    //(idDeposito,[cantidadActual, capacidadTotal, estaLleno, imagen])
 
-    this.depositos.set('1', [0, 30, false, "../../assets/transporte/deposito-1.png"]);
-    this.depositos.set('2', [0, 110, false, "../../assets/transporte/deposito-2.png"]);
-    this.depositos.set('3', [0, 80, false, "../../assets/transporte/deposito-3.png"]);    
-    
     //========================FABRICAS======================== 
     //(idFabrica,[cantidadActual, produccionTotal, estaLlena, imagen])
 
-    this.fabricas.set('A', [130, 130, true, "../../assets/transporte/fabrica-A.png"]); 
-    this.fabricas.set('B', [90, 90, true, "../../assets/transporte/fabrica-B.png"]);  
-    
+    //========================DEPOSITOS======================== 
+    //(idDeposito,[cantidadActual, capacidadTotal, estaLleno, imagen])
+
+ 
+    this.generarFabricasYDepositos();
+
     //========================ESTANTERIAS======================== 
     //(idEstanteria,[cantidadActual, precioPorCaja, estaLleno, imagen])
 
-    this.estanterias.set('1A', [0, 2 ,false, "../../assets/transporte/estantes-1.png"]);
-    this.estanterias.set('2A', [0, 5 ,false, "../../assets/transporte/estantes-2.png"]);
-    this.estanterias.set('3A', [0, 7 ,false, "../../assets/transporte/estantes-3.png"]); 
-    this.estanterias.set('1B', [0, 3 ,false, "../../assets/transporte/estantes-1.png"]);
-    this.estanterias.set('2B', [0, 2 ,false, "../../assets/transporte/estantes-2.png"]);
-    this.estanterias.set('3B', [0, 8 ,false, "../../assets/transporte/estantes-3.png"]);
+    this.generarEstanterias();    
+    
+    //========================VALOR OPTIMO========================
+    //Resolucion mediante programacion lineal
+    await this.programacionLienal.resolverProblemaTransporte(
+      this.estanterias.get('1A')?.[1] ?? 0,
+      this.estanterias.get('2A')?.[1] ?? 0,
+      this.estanterias.get('3A')?.[1] ?? 0,
+      this.estanterias.get('1B')?.[1] ?? 0,
+      this.estanterias.get('2B')?.[1] ?? 0,
+      this.estanterias.get('3B')?.[1] ?? 0,
+      this.fabricas.get('A')?.[1] ?? 0,
+      this.fabricas.get('B')?.[1] ?? 0,
+      this.depositos.get('1')?.[1] ?? 0,
+      this.depositos.get('2')?.[1] ?? 0,
+      this.depositos.get('3')?.[1] ?? 0
+    ).then(resultado => {
+      const z = resultado.result.z; 
+      console.log('Valor de z:', z);
+      this.costoOptimo = z;
+    });
+
+    this.costoCotaSuperior = this.calcularCotaSuperior();  
+
   }
 
   moverCajas(tipoDeMovimiento:string, depositoNumero:string, fabricaLetra:string)
   {
-    // this.verificarEstadoDepositoYEstanteria(depositoNumero);//verificar si estan llenos los depositos
-    // this.verificarEstadoFabrica(fabricaLetra);//verificar si estan llenas las fabricas
-    
     this.errorJugador = false;
     let cantidadDeCajasAMover:number = 10;
     let deposito = this.depositos.get(`${depositoNumero}`);
@@ -100,7 +113,8 @@ export class TransporteJuegoComponent {
       switch(tipoDeMovimiento)
       {
         case "agregar":
-          if(fabrica[0] >= cantidadDeCajasAMover && deposito[0]!=deposito[1]) //verificacion previa para sumar cajas
+          //verificacion previa para sumar cajas
+          if(fabrica[0] >= cantidadDeCajasAMover && deposito[0]!=deposito[1]) 
           {
             fabrica[0] -= cantidadDeCajasAMover; 
             this.fabricas.set(`${fabricaLetra}`, fabrica);
@@ -111,7 +125,8 @@ export class TransporteJuegoComponent {
           }
           break;
         case "quitar":
-          if(deposito[0] >= cantidadDeCajasAMover && estanteria[0] >= cantidadDeCajasAMover) //verificacion previa para restar cajas
+          //verificacion previa para restar cajas
+          if(deposito[0] >= cantidadDeCajasAMover && estanteria[0] >= cantidadDeCajasAMover) 
           {
             fabrica[0] += cantidadDeCajasAMover; 
             this.fabricas.set(`${fabricaLetra}`, fabrica);
@@ -160,13 +175,6 @@ export class TransporteJuegoComponent {
       this.costoJugada += estanteria[0]* estanteria[1];
     });    
 
-    // cota superior - costo optimo -------------------- 10 puntos
-    // cota superior - costo jugada -------------------- X puntos
-    // X = (cota superior - costo jugada)*10/(cota superior - costo optimo)
-
-    // let diferenciaCostoJugadaCostoCotaSuperior = this.costoCotaSuperior - this.costoJugada; 
-    // let diferenciaCostoCotaSuperiorCostoOptimo = this.costoCotaSuperior - this.costoOptimo;
-
     let exponente =  (this.costoOptimo - this.costoJugada)/(this.costoCotaSuperior - this.costoOptimo);
     
     this.puntajeActual = Math.round(10*(Math.pow(10,exponente)));
@@ -190,6 +198,85 @@ export class TransporteJuegoComponent {
       
       console.log(this.paradasSesion);
     });
+  }
+
+  calcularCotaSuperior()
+  {
+    let produccionA = this.fabricas.get('A')?.[1] ?? 0; 
+    let produccionB = this.fabricas.get('B')?.[1] ?? 0;
+    this.sumaProducciones = produccionA + produccionB;
+    let flagValorEstanteria = 0;
+    this.estanterias.forEach(element => {
+      console.log(flagValorEstanteria);
+      if(element?.[1] > flagValorEstanteria)
+      {
+        flagValorEstanteria = element?.[1] 
+      }
+      
+    });
+    return this.sumaProducciones * flagValorEstanteria;
+  }
+
+  //========================ESTANTERIAS======================== 
+
+
+  getRandomArbitrary(min:number, max:number) 
+  {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+
+  generarEstanterias()
+  {
+    this.estanterias.set('1A', [0, this.getRandomArbitrary(1,10) ,false, "../../assets/transporte/estantes-1.png"]);
+    this.estanterias.set('2A', [0, this.getRandomArbitrary(1,10) ,false, "../../assets/transporte/estantes-2.png"]);
+    this.estanterias.set('3A', [0, this.getRandomArbitrary(1,10) ,false, "../../assets/transporte/estantes-3.png"]); 
+    this.estanterias.set('1B', [0, this.getRandomArbitrary(1,10) ,false, "../../assets/transporte/estantes-1.png"]);
+    this.estanterias.set('2B', [0, this.getRandomArbitrary(1,10) ,false, "../../assets/transporte/estantes-2.png"]);
+    this.estanterias.set('3B', [0, this.getRandomArbitrary(1,10) ,false, "../../assets/transporte/estantes-3.png"]);
+  }
+
+  //========================FABRICAS Y DEPOSITOS======================== 
+
+  getRandomUniqueMultipleOfTen(min: number, max: number, existentes: Set<number>)
+  {
+    let numero: number;
+    do 
+    {
+      numero = Math.round(Math.random() * ((max - min) / 10)) * 10 + min;
+    } 
+    while (existentes.has(numero)); 
+    
+    existentes.add(numero); 
+    return numero;
+  }
+
+  generarFabricasYDepositos() 
+  {
+    const produccionTotal = 250; 
+    const valoresExistentes = new Set<number>();
+
+    const produccionA = this.getRandomUniqueMultipleOfTen(50, produccionTotal - 50, valoresExistentes);
+    const produccionB = produccionTotal - produccionA; 
+    valoresExistentes.add(produccionB); 
+
+    const capacidadDeposito1 = this.getRandomUniqueMultipleOfTen(30, produccionTotal - 60, valoresExistentes);
+    const capacidadDeposito2 = this.getRandomUniqueMultipleOfTen(30, produccionTotal - capacidadDeposito1 - 30, valoresExistentes);
+    const capacidadDeposito3 = produccionTotal - capacidadDeposito1 - capacidadDeposito2;
+    valoresExistentes.add(capacidadDeposito3);
+
+    
+    this.fabricas.set('A', [produccionA, produccionA, true, "../../assets/transporte/fabrica-A.png"]);
+    this.fabricas.set('B', [produccionB, produccionB, true, "../../assets/transporte/fabrica-B.png"]);
+
+    this.depositos.set('1', [0, capacidadDeposito1, false, "../../assets/transporte/deposito-1.png"]);
+    this.depositos.set('2', [0, capacidadDeposito2, false, "../../assets/transporte/deposito-2.png"]);
+    this.depositos.set('3', [0, capacidadDeposito3, false, "../../assets/transporte/deposito-3.png"]);
+
+    console.log('Producción Fábrica A:', produccionA);
+    console.log('Producción Fábrica B:', produccionB);
+    console.log('Capacidad Depósito 1:', capacidadDeposito1);
+    console.log('Capacidad Depósito 2:', capacidadDeposito2);
+    console.log('Capacidad Depósito 3:', capacidadDeposito3);
   }
 
 }

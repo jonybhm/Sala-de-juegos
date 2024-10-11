@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc,query,collection, Firestore, orderBy, collectionData } from '@angular/fire/firestore';
+import { addDoc,query,collection, Firestore, orderBy, collectionData,where } from '@angular/fire/firestore';
 import { Observable, Subscription } from 'rxjs';
 import {Auth} from '@angular/fire/auth'
 
@@ -29,21 +29,5 @@ export class RegistroPuntajeService {
     
   }
    
-  obtenerPuntajesDB ()
-  {
-    let coleccion = collection(this.firestore, 'puntajes');   
-
-    const filteredQuery = query(
-      coleccion,
-      orderBy("Fecha","asc")
-    );
-
-    const observable = collectionData(filteredQuery); //canal de comunicacon que me permite ver si hubo cambios en la base de datos 
-
-    this.sub = observable.subscribe((respuesta:any)=>{
-      this.puntajesCollection = respuesta;
-      this.countPuntajes = this.puntajesCollection.length;
-      console.log(respuesta);
-    })
-  }
+  
 }

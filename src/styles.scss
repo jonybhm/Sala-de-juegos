@@ -207,6 +207,20 @@ html {
   cursor: pointer;
 }
 
+.carta-puntaje{
+  width: 500px;
+  margin: 10px;
+  padding: 10px;
+  text-align: left;
+  
+}
+
+.contenedor-puntaje{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .carta{
   margin: 10px;
   padding: 10px;
