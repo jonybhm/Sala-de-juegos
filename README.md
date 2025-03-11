@@ -5,7 +5,7 @@
 </h1>
 
 <div align="center">
-  SALA MEDICA
+  SALA DE JUEGOS
   
   <br />
  
@@ -41,109 +41,84 @@
 ---
 
 ## Sobre / About
-> Este proyecto es un sistema de gestión para una clínica desarrollado en Angular. Permite el registro, administración de usuarios, gestión de turnos y almacenamiento de historias clínicas, entre otras funcionalidades. La aplicación está optimizada para una experiencia fluida y cuenta con validaciones, animaciones y generación de informes.
-
+> Esta aplicación de juegos permite a los usuarios medir sus capacidades cognitivas y motrices a través de distintos juegos interactivos. La plataforma es intuitiva y almacena estadísticas de cada jugador y cada juego, asegurando una experiencia fluida y desafiante.
 
 
 ---
 
 ## Características / Features
 
-### [Página de Bienvenida](#página-de-bienvenida)
-- Acceso al [Login](#login) y [Registro](#registro-de-usuarios).
+### Autenticación de Usuarios
+- **Registro y Login con Firebase Authentication**.
+- **Inicio de sesión con botones de acceso rápido**.
+- **Registro de logs de acceso en Firebase**.
+- **Restricción de acceso a usuarios registrados**.
 
-### [Registro de Usuarios](#registro-de-usuarios)
-- **Pacientes:**
-  - Nombre, Apellido, Edad, DNI, Obra Social, Mail, Contraseña.
-  - Subida de 2 imágenes para el perfil.
-- **Especialistas:**
-  - Nombre, Apellido, Edad, DNI, Especialidad (selección o creación), Mail, Contraseña.
-  - Imagen de perfil.
-- **Administradores:**
-  - Nombre, Apellido, Edad, DNI, Mail, Contraseña, Imagen de perfil.
-- Validaciones en los formularios.
-- Registro de usuarios con Firebase Authentication.
+### Juegos Disponibles
+- **Ahorcado**: Selección de letras mediante botones, sin ingreso por teclado.
+- **Mayor o Menor**: Predicción de la siguiente carta basada en un mazo.
+- **Preguntados**: Obtención de preguntas con imágenes desde una API, con opciones de respuesta.
+- **Juego de Transporte (Original)**: Basado en medios de transporte y programación lineal.
 
-### [Login](#login)
-- Acceso al sistema con verificación de email.
-- Botones de acceso rápido.
-- Solo los especialistas aprobados por un administrador pueden ingresar.
+### Chat
+- Accesible solo para usuarios logueados.
+- Mensajes con identificación de usuario y hora de envío.
 
-### [Administración de Usuarios](#administración-de-usuarios)
-- Acceso exclusivo para administradores.
-- Habilitación/Inhabilitación de especialistas.
-- Creación de nuevos usuarios.
-- Administración de datos en Firestore.
+### Encuesta
+- Datos requeridos: Nombre, Apellido, Edad (18-99 años), Teléfono (hasta 10 números).
+- Mínimo 3 preguntas con distintos controles: textbox, checkbox, radiobutton.
+- Validaciones en todos los campos.
+- Respuestas almacenadas en Firebase y accesibles solo para administradores.
 
-### [Gestión de Turnos](#gestión-de-turnos)
-- **Pacientes:**
-  - Visualización de turnos solicitados con filtros por especialidad y especialista.
-  - Cancelación de turnos con comentario.
-  - Visualización de reseñas y encuestas.
-  - Calificación de la atención recibida.
-- **Especialistas:**
-  - Visualización de turnos asignados con filtros.
-  - Aceptación, rechazo o cancelación de turnos.
-  - Finalización de turnos con diagnóstico y reseña.
-- **Administrador:**
-  - Visualización de todos los turnos con filtros.
-  - Cancelación de turnos con comentario.
-- **Solicitud de Turno:**
-  - Pacientes y Administradores pueden solicitar turnos.
-  - Selección de especialidad, especialista, día y horario.
-  - Disponibilidad basada en la agenda del especialista.
+### Listado de Resultados
+- Registro de resultados al finalizar cada juego.
+- Almacenamiento de datos del usuario, fecha, puntaje, etc.
 
-### [Mi Perfil](#mi-perfil)
-- Visualización y edición de datos personales.
-- **Especialistas:** Gestión de disponibilidad horaria.
+### Presentación "Quién Soy"
+- Datos personales del desarrollador.
+- Foto del desarrollador.
+- Explicación detallada del juego de transporte.
 
-### [Historia Clínica](#historia-clínica)
-- **Disponible para:**
-  - Pacientes en su perfil.
-  - Administradores en la sección de usuarios.
-  - Especialistas que han atendido al paciente al menos una vez.
-- **Datos registrados:**
-  - Fijos: Altura, Peso, Temperatura, Presión.
-  - Dinámicos: Clave-Valor (hasta 3 datos adicionales).
-  - Datos adicionales con controles específicos:
-    - Rango (0-100), cuadro numérico y switch (Sí/No).
-
-### [Reportes y Estadísticas](#reportes-y-estadísticas)
-- **Para Administradores:**
-  - Log de ingresos al sistema.
-  - Cantidad de turnos por especialidad y día.
-  - Turnos solicitados y finalizados por médico en un período.
-  - Exportación de informes en Excel o PDF.
-
-### [Filtros Avanzados](#filtros-avanzados)
-- Búsqueda en turnos por cualquier campo, incluyendo historia clínica.
+### Experiencia de Usuario
+- Navegación fluida e intuitiva.
+- Mensajes e instrucciones claras.
+- Animaciones para mejorar la interactividad.
 
 ---
 ## Capturas de Pantalla / Screenshots
 <br>
 
 
-|                        Turnos                             |    
+|                        Home                             |    
 | :-------------------------------------------------------------------:       | 
-| <img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202024-11-12%20at%2000-22-32%20PrimerParcialDeCastroJonathan.png?alt=media&token=f6715ffb-64a8-4c6f-932d-4f0a651f1b11" title="Turnos" width="100%">  | 
-|                        Solicitudes de turnos sencilla donde el paciente podrá registrar su turno en la agenda del especialista que quiera                             |    
+| <img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202025-03-11%20at%2017-47-39%20TpSalaDeJuegos.png?alt=media&token=ac1c29e5-0545-4f86-8e20-37f3c602015b" title="Turnos" width="100%">  | 
+|                                                    |    
 
 
-|                           Usuarios                 |                                                     
+|                           Preguntados                 |                                                     
 |  :-------------------------------------------------------------------:      
-| <img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202024-11-12%20at%2000-20-39%20PrimerParcialDeCastroJonathan.png?alt=media&token=7aaa828f-c305-4f00-9681-565b6007e187" title="Calculator" width="100%">    |
-|                        Perfiles de los usuarios con la información mas importante                             |    
+| <img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202025-03-11%20at%2017-48-19%20TpSalaDeJuegos.png?alt=media&token=e3608748-931e-4930-ac3f-22d1adb0a887" title="Calculator" width="100%">    |
+|                             |    
 
-|                        Inicio de Sesion                             |    
+|                               Mayor o Menor                      |    
 | :-------------------------------------------------------------------:       | 
-|<img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202024-11-12%20at%2000-19-20%20PrimerParcialDeCastroJonathan.png?alt=media&token=a35e86ba-abd9-469c-842f-f54cacedde16" title="Inicio sesion" width="100%">       | 
+|<img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202025-03-11%20at%2017-48-29%20TpSalaDeJuegos.png?alt=media&token=b8724f70-1d46-49f3-87b2-373dee536326" title="Inicio sesion" width="100%">       | 
 |                        Inicio de sesión sencillo                             |    
 
-|                        Registro de Agendas                             |    
+|                       Transporte                         |    
 | :-------------------------------------------------------------------:       | 
-|<img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202024-11-12%20at%2013-04-16%20PrimerParcialDeCastroJonathan.png?alt=media&token=cf7f7f9b-99b5-43ad-b625-42e0287dc1a9" title="Inicio sesion" width="100%">       | 
-|                        Registro de agendas por especialista                             |    
+|<img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202025-03-11%20at%2017-48-39%20TpSalaDeJuegos.png?alt=media&token=8bb0dcd3-05a7-4fee-b88c-74a9b1560d30" title="Inicio sesion" width="100%">       | 
+|                                                    |    
 
+|                     Puntajes                           |    
+| :-------------------------------------------------------------------:       | 
+|<img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202025-03-11%20at%2017-49-12%20TpSalaDeJuegos.png?alt=media&token=7bbfb86d-4aee-4e5d-9455-f0252e82269f" title="Inicio sesion" width="100%">       | 
+|                                                    |   
+
+|                     Encuesta                           |    
+| :-------------------------------------------------------------------:       | 
+|<img src="https://firebasestorage.googleapis.com/v0/b/sala-medica.firebasestorage.app/o/capturasPantalla%2FScreenshot%202025-03-11%20at%2017-49-20%20TpSalaDeJuegos.png?alt=media&token=7021cb55-7e71-4d5b-9c4f-6fac7eed7153" title="Inicio sesion" width="100%">       | 
+|                                                    |   
 
 </details>
 ---
@@ -162,7 +137,7 @@
 ### Instalación / Installation
 1. Clonar el repositorio:
    ```sh
-   git clone https://github.com/jonybhm/Sala-M-dica.git
+   git clone https://github.com/jonybhm/Sala-de-juegos.git
    ```
 2. Instalar dependencias:
    ```sh
@@ -177,7 +152,7 @@
 ---
 
 ### Deploy
-La aplicación está desplegada en línea y accesible en: https://sala-medica.web.app.
+La aplicación está desplegada en línea y accesible en: https://sala-de-juegos-e948c.web.app.
 
 ---
 
